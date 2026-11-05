@@ -117,3 +117,9 @@ h2{font-size:clamp(28px,3.5vw,40px);font-weight:800;letter-spacing:-.6px;line-he
   .s{padding-top:56px}
 }
 .form-note{margin-top:14px;font-size:14px;color:var(--t)}
+
+.slogan{text-align:center;padding:44px 20px 8px}
+.slogan p{margin:0;display:inline-flex;align-items:center;gap:18px;font-size:clamp(22px,3vw,34px);font-weight:800;letter-spacing:-.01em;color:var(--b)}
+.slogan p::before,.slogan p::after{content:"";width:48px;height:3px;border-radius:2px;background:#D1D5DB}
+.foot-slogan{font-weight:700;margin-bottom:6px!important}
+@media(max-width:640px){.slogan p::before,.slogan p::after{display:none}.slogan{padding-top:32px}}

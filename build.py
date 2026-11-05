@@ -52,6 +52,7 @@ SCHEMA = {
     "telephone": "+1-262-338-0783",
     "email": EMAIL,
     "foundingDate": "1977",
+    "slogan": "Reliability in Professional Cleaning",
     "description": "Locally owned and operated carpet, upholstery, tile & grout, floor care (strip and wax) and area rug cleaning since 1977.",
     "address": {"@type": "PostalAddress", "addressRegion": "WI", "addressCountry": "US"},
     "areaServed": [{"@type": "AdministrativeArea", "name": c + ", WI"} for c in COUNTIES],
@@ -115,7 +116,7 @@ def footer():
     return f"""</main>
 <footer class="site-footer">
 <div class="wrap foot">
-<div class="foot-brand">{B.badge(132)}<p>Locally owned &amp; operated since 1977. Serving {AREA}.</p></div>
+<div class="foot-brand">{B.badge(132)}<p class="foot-slogan">Reliability in Professional Cleaning</p><p>Locally owned &amp; operated since 1977. Serving {AREA}.</p></div>
 <div class="foot-col"><h2>Services</h2>{svc}</div>
 <div class="foot-col"><h2>Contact</h2><a href="{TEL}">{PHONE}</a><a href="mailto:{EMAIL}">{EMAIL}</a><a class="strong" href="/contact/">Request a free quote &rarr;</a></div>
 </div>
@@ -170,6 +171,7 @@ home = head(
 </div>
 <div class="photo"><img src="/assets/syls-carpet.jpg" alt="Syl&rsquo;s technician deep-cleaning a living room carpet" width="1400" height="1046" fetchpriority="high"><div class="seal">{B.badge(150)}</div></div>
 </div></section>
+<section class="wrap slogan"><p>Reliability in Professional Cleaning</p></section>
 <section class="wrap s"><h2>What we clean</h2><p class="sub">One call covers every surface in your home or building.</p><div class="grid">{cards_html}</div></section>
 <section class="wrap s"><h2>Getting a cleaning is easy</h2><div class="grid">{steps_html}</div></section>
 <section class="wrap s area"><div><h2>Proudly serving southeastern Wisconsin</h2><p class="sub">Homes, businesses and apartment communities throughout:</p></div><ul class="area-list">{area_html}</ul></section>
