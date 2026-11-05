@@ -5,7 +5,7 @@ import badge as B
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(ROOT, 'dist')
-SITE = 'https://www.sylscleaning.com'
+SITE = 'https://sylscleaning.com'
 PHONE = '262-338-0783'
 TEL = 'tel:+12623380783'
 EMAIL = 'info@sylscleaning.com'
@@ -286,7 +286,7 @@ write('/contact/', quote)
 nf = head("Page not found | Syl's Cleaning", "Sorry, that page doesn't exist.", '/404.html') + header('') + f"""
 <section class="wrap s" style="text-align:center;padding-bottom:40px"><h1 style="font-size:44px">Page not found</h1><p class="sub">Sorry, we couldn&rsquo;t find that page.</p><div class="btns" style="justify-content:center"><a class="btn btn-b" href="/">Go to the home page</a></div></section>
 """ + footer()
-open(os.path.join(DIST, '404.html'), 'w').write(nf.replace('<link rel="canonical" href="https://www.sylscleaning.com/404.html">\n', '').replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1))
+open(os.path.join(DIST, '404.html'), 'w').write(nf.replace('<link rel="canonical" href="https://sylscleaning.com/404.html">\n', '').replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1))
 
 # ---------------- assets, sitemap, robots ----------------
 A = os.path.join(DIST, 'assets'); os.makedirs(A, exist_ok=True)
@@ -301,5 +301,6 @@ sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps
      ''.join(f'  <url><loc>{SITE}{p}</loc></url>\n' for p in pages) + '</urlset>\n'
 open(os.path.join(DIST, 'sitemap.xml'), 'w').write(sm)
 open(os.path.join(DIST, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n')
-open(os.path.join(DIST, '_redirects'), 'w').write('https://sylscleaning.com/* https://www.sylscleaning.com/:splat 301!\n')
+# Netlify handles www -> sylscleaning.com (primary domain) automatically
+open(os.path.join(DIST, '_redirects'), 'w').write('')
 print('built', pages)
