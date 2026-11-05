@@ -116,3 +116,4 @@ h2{font-size:clamp(28px,3.5vw,40px);font-weight:800;letter-spacing:-.6px;line-he
   .hdr-cta{justify-content:center}
   .s{padding-top:56px}
 }
+.form-note{margin-top:14px;font-size:14px;color:var(--t)}
