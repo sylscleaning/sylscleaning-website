@@ -123,3 +123,6 @@ h2{font-size:clamp(28px,3.5vw,40px);font-weight:800;letter-spacing:-.6px;line-he
 .slogan p::before,.slogan p::after{content:"";width:48px;height:3px;border-radius:2px;background:#D1D5DB}
 .foot-slogan{font-weight:700;margin-bottom:6px!important}
 @media(max-width:640px){.slogan p::before,.slogan p::after{display:none}.slogan{padding-top:32px}}
+.area-list li a{color:inherit;text-decoration:none}
+.area-list li:has(a):hover{background:var(--b);color:#fff}
+.sub a{color:var(--b);font-weight:700}

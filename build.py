@@ -11,6 +11,7 @@ TEL = 'tel:+12623380783'
 EMAIL = 'info@sylscleaning.com'
 AREA = 'Washington, Ozaukee, Waukesha and Dodge Counties'
 COUNTIES = ['Washington County', 'Ozaukee County', 'Waukesha County', 'Dodge County']
+AREA_LINKS = [('/service-areas/' + c.lower().replace(' ', '-') + '/', c) for c in COUNTIES]
 
 P = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src/brand/wordmark_path.txt')).read()
 P = re.sub(r'(\d+\.\d)\d', r'\1', P)
@@ -113,11 +114,13 @@ def header(active):
 
 def footer():
     svc = ''.join(f'<a href="{h}">{l}</a>' for _, l, h in NAV)
+    areas = ''.join(f'<a href="{h}">{n}</a>' for h, n in AREA_LINKS)
     return f"""</main>
 <footer class="site-footer">
 <div class="wrap foot">
 <div class="foot-brand">{B.badge(132)}<p class="foot-slogan">Reliability in Professional Cleaning</p><p>Locally owned &amp; operated since 1977. Serving {AREA}.</p></div>
 <div class="foot-col"><h2>Services</h2>{svc}</div>
+<div class="foot-col"><h2>Service areas</h2>{areas}</div>
 <div class="foot-col"><h2>Contact</h2><a href="{TEL}">{PHONE}</a><a href="mailto:{EMAIL}">{EMAIL}</a><a class="strong" href="/contact/">Request a free quote &rarr;</a></div>
 </div>
 <div class="wrap foot-bottom"><span>&copy; <span id="yr">2026</span> Syl&rsquo;s Carpet &amp; Upholstery Cleaning</span><span>sylscleaning.com</span></div>
@@ -156,7 +159,7 @@ steps = [('1', 'Send a request', 'Tell us what needs cleaning. It takes about a 
          ('2', 'We reach out to schedule', 'We&rsquo;ll confirm the details and find a time that works for you.'),
          ('3', 'Enjoy the difference', 'Our trained technicians do the work. You enjoy a cleaner space.')]
 steps_html = ''.join(f'<div class="step"><span class="step-n">{n}</span><h3>{t}</h3><p>{d}</p></div>' for n, t, d in steps)
-area_html = ''.join(f'<li>{c}</li>' for c in COUNTIES)
+area_html = ''.join(f'<li><a href="{h}">{n}</a></li>' for h, n in AREA_LINKS)
 
 home = head(
     "Carpet, Upholstery & Tile Cleaning | Syl's Cleaning, Wisconsin",
@@ -257,6 +260,61 @@ service('/area-rugs/', 'rugs',
     [('Do you clean oriental rugs?', 'Yes. We clean oriental and specialty rugs as well as everyday area rugs.'),
      ('How do I get a quote?', f'Send a request on our Request a Quote page or call {PHONE}.')])
 
+# ---------------- COUNTY / SERVICE-AREA PAGES ----------------
+AREAS = [
+    ('washington-county', 'Washington County',
+     ['West Bend', 'Hartford', 'Germantown', 'Jackson', 'Slinger', 'Kewaskum', 'Richfield', 'Hubertus'],
+     'From family homes in West Bend and Hartford to offices and apartment buildings in Germantown, we keep Washington County carpets, furniture and floors looking their best.'),
+    ('ozaukee-county', 'Ozaukee County',
+     ['Mequon', 'Cedarburg', 'Grafton', 'Port Washington', 'Thiensville', 'Saukville', 'Fredonia', 'Belgium'],
+     'From lakeshore homes in Port Washington and Mequon to shops and offices in Cedarburg and Grafton, we bring careful, reliable cleaning to Ozaukee County.'),
+    ('waukesha-county', 'Waukesha County',
+     ['Waukesha', 'Brookfield', 'New Berlin', 'Menomonee Falls', 'Oconomowoc', 'Pewaukee', 'Delafield', 'Hartland', 'Sussex', 'Muskego', 'Elm Grove', 'Mukwonago'],
+     'From lake homes in Oconomowoc and Pewaukee to apartment communities and offices in Brookfield and Waukesha, we clean carpet, tile and floors across Waukesha County.'),
+    ('dodge-county', 'Dodge County',
+     ['Beaver Dam', 'Mayville', 'Horicon', 'Juneau', 'Hustisford', 'Lomira', 'Fox Lake', 'Theresa'],
+     'From homes in Beaver Dam and Mayville to businesses in Horicon and Juneau, Dodge County families and businesses count on us for a thorough clean.'),
+]
+SVC_LINKS = [('Carpet &amp; Upholstery Cleaning', '/carpet-upholstery/', 'Carpet, sofas, sectionals, chairs and mattresses.'),
+             ('Tile &amp; Grout Cleaning', '/tile-grout/', 'Kitchens, bathrooms, showers and entryways.'),
+             ('Floor Care (Strip &amp; Wax)', '/floor-care/', 'Vinyl and VCT floors, hallways, lobbies and offices.'),
+             ('Area Rug Cleaning', '/area-rugs/', 'Everyday area rugs and oriental rugs.')]
+
+for slug, name, towns, intro in AREAS:
+    path = f'/service-areas/{slug}/'
+    town_list = ', '.join(towns[:-1]) + ' and ' + towns[-1]
+    svc_html = ''.join(f'<a class="card" href="{h}"><h3>{t}</h3><p>{d}</p><span class="more">Learn more &rarr;</span></a>' for t, h, d in SVC_LINKS)
+    towns_html = ''.join(f'<li>{t}</li>' for t in towns)
+    others = ' &middot; '.join(f'<a href="{h}">{n}</a>' for h, n in AREA_LINKS if n != name)
+    faq = [(f'Do you serve all of {name}?', f'Yes. We clean homes, businesses and apartment communities throughout {name}, including {town_list}. Not sure if we reach you? Just call {PHONE}.'),
+           (f'What do you clean in {name}?', 'Carpet and upholstery (including sofas, chairs and mattresses), tile and grout, hard floors with strip and wax, and area rugs, including oriental rugs.'),
+           ('How do I get a quote?', f'Send a request on our Request a Quote page or call {PHONE}. We&rsquo;ll reach out to schedule a time that works for you.')]
+    faq_html = ''.join(f'<details class="faq"><summary>{q}</summary><p>{a}</p></details>' for q, a in faq)
+    clean = lambda s: re.sub('&amp;', '&', re.sub('&rsquo;', "'", s))
+    extra = {"@context": "https://schema.org", "@graph": [
+        {"@type": "Service", "name": f"Carpet, upholstery, tile and floor cleaning in {name}, WI",
+         "provider": {"@id": SITE + "/#business"},
+         "areaServed": [{"@type": "City", "name": t + ", WI"} for t in towns]},
+        {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": clean(q), "acceptedAnswer": {"@type": "Answer", "text": clean(a)}} for q, a in faq]}]}
+    html = head(f"Carpet & Tile Cleaning in {name}, WI | Syl's Cleaning",
+                f"Carpet, upholstery, tile & grout, floor strip & wax and area rug cleaning in {town_list} and all of {name}, WI. Locally owned since 1977.",
+                path, extra_schema=extra) + header('') + f"""
+<section class="wrap hero-wrap"><div class="hero">
+<div class="hero-txt">
+<p class="eyebrow">Service area</p>
+<h1>Carpet &amp; Floor Cleaning in {name}</h1>
+<p class="lead">{intro}</p>
+{btns()}
+</div>
+<div class="photo"><img src="/assets/syls-carpet.jpg" alt="Syl&rsquo;s technician cleaning carpet in a {name} home" width="1400" height="1046" fetchpriority="high"><div class="seal">{B.badge(150)}</div></div>
+</div></section>
+<section class="wrap s"><h2>Services in {name}</h2><p class="sub">Locally owned &amp; operated since 1977. Reliability in professional cleaning.</p><div class="grid">{svc_html}</div></section>
+<section class="wrap s area"><div><h2>Communities we serve</h2><p class="sub">Homes, businesses and apartment communities in and around:</p></div><ul class="area-list">{towns_html}</ul></section>
+<section class="wrap s"><h2>Common questions</h2><div class="faqs">{faq_html}</div><p class="sub" style="margin-top:22px">We also serve {others}.</p></section>
+{cta(f'Ready for a cleaner space in {name}?', 'Send us a quick request and we&rsquo;ll reach out to schedule.')}
+""" + footer()
+    write(path, html)
+
 # ---------------- REQUEST A QUOTE ----------------
 quote = head(
     "Request a Free Quote | Syl's Cleaning",
@@ -296,11 +354,34 @@ for f in os.listdir(os.path.join(ROOT, 'src/photos')):
 open(os.path.join(A, 'favicon.svg'), 'w').write(
     f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#3D3C8A"/>'
     f'<svg x="6" y="12" width="52" height="40" viewBox="{VB}"><path fill="#FFFFFF" fill-rule="evenodd" d="{P}"/></svg></svg>')
-pages = ['/', '/carpet-upholstery/', '/tile-grout/', '/floor-care/', '/area-rugs/', '/contact/']
+pages = ['/', '/carpet-upholstery/', '/tile-grout/', '/floor-care/', '/area-rugs/', '/contact/'] + [h for h, _ in AREA_LINKS]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
      ''.join(f'  <url><loc>{SITE}{p}</loc></url>\n' for p in pages) + '</urlset>\n'
 open(os.path.join(DIST, 'sitemap.xml'), 'w').write(sm)
 open(os.path.join(DIST, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n')
 # Netlify handles www -> sylscleaning.com (primary domain) automatically
 open(os.path.join(DIST, '_redirects'), 'w').write('')
+# llms.txt: plain-language summary for AI assistants
+llms = f"""# Syl's Cleaning (Syl's Carpet & Upholstery Cleaning)
+
+> Locally owned and operated professional cleaning company in southeastern Wisconsin, serving homes, businesses and apartment communities since 1977. Slogan: Reliability in Professional Cleaning.
+
+- Phone: {PHONE}
+- Email: {EMAIL}
+- Website: {SITE}/
+- Service area: {', '.join(n for _, n, _, _ in AREAS)}, Wisconsin
+- Towns served include: {', '.join(t for _, _, ts, _ in AREAS for t in ts)}
+
+## Services
+- [Carpet & Upholstery Cleaning]({SITE}/carpet-upholstery/): wall-to-wall carpet, spot and stain treatment, sofas, sectionals, chairs, mattresses, vehicle seats, carpet repair
+- [Tile & Grout Cleaning]({SITE}/tile-grout/): ceramic and porcelain tile, grout lines, kitchens, bathrooms, showers, entryways, commercial tile
+- [Floor Care (Strip & Wax)]({SITE}/floor-care/): stripping and waxing vinyl, VCT and other hard floors; apartment hallways, lobbies, offices; one-time or recurring
+- [Area Rug Cleaning]({SITE}/area-rugs/): everyday area rugs and oriental rugs
+
+## Service areas
+""" + ''.join(f"- [{n}]({SITE}/service-areas/{sl}/): {', '.join(ts)}\n" for sl, n, ts, _ in AREAS) + f"""
+## Get a quote
+- [Request a free quote]({SITE}/contact/) or call {PHONE}
+"""
+open(os.path.join(DIST, 'llms.txt'), 'w').write(llms)
 print('built', pages)
