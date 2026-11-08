@@ -20,7 +20,7 @@ def arc(text, r, fs, ls, top):
 def badge(size, standalone=False):
     ns=' xmlns="http://www.w3.org/2000/svg"' if standalone else ''
     return (f'<svg{ns} viewBox="0 0 1800 1800" role="img" aria-label="Syl’s Cleaning: carpet, upholstery, floors. Established 1977" style="width: {size}px; height: {size}px; display: block">'
-      '<circle cx="900" cy="900" r="900" fill="#3D3C8A"></circle>'
+      '<circle cx="900" cy="900" r="900" fill="#2A4C9E"></circle>'
       '<circle cx="900" cy="900" r="855" fill="none" stroke="#FFFFFF" stroke-width="8"></circle>'
       '<circle cx="225" cy="900" r="18" fill="#FFFFFF"></circle><circle cx="1575" cy="900" r="18" fill="#FFFFFF"></circle>'
       + arc('CARPET · UPHOLSTERY · FLOORS',650,88,4,True)
@@ -29,4 +29,4 @@ def badge(size, standalone=False):
       f'<text x="920" y="1215" fill="#FFFFFF" font-family="{FF}" font-weight="800" font-size="128" letter-spacing="40" text-anchor="middle">CLEANING</text>'
       '</svg>')
 def mark(h):
-    return f'<svg viewBox="{VB}" role="img" aria-label="Syl’s" style="height: {h}px; width: auto; display: block"><path fill="#3D3C8A" fill-rule="evenodd" d="{P}"></path></svg>'
+    return f'<svg viewBox="{VB}" role="img" aria-label="Syl’s" style="height: {h}px; width: auto; display: block"><path fill="#2A4C9E" fill-rule="evenodd" d="{P}"></path></svg>'

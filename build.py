@@ -17,7 +17,7 @@ P = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src/brand/wor
 P = re.sub(r'(\d+\.\d)\d', r'\1', P)
 VB = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src/brand/wordmark_vb.txt')).read()
 
-def wordmark(h, color='#3D3C8A'):
+def wordmark(h, color='#2A4C9E'):
     return (f'<svg viewBox="{VB}" aria-hidden="true" style="height:{h}px;width:auto;display:block">'
             f'<path fill="{color}" fill-rule="evenodd" d="{P}"/></svg>')
 
@@ -28,7 +28,7 @@ NAV = [
     ('rugs', 'Area Rugs', '/area-rugs/'),
 ]
 
-def svg(paths, size=28, stroke='#3D3C8A', sw=1.8):
+def svg(paths, size=28, stroke='#2A4C9E', sw=1.8):
     return (f'<svg width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" stroke="{stroke}" stroke-width="{sw}" '
             f'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{paths}</svg>')
 
@@ -87,7 +87,7 @@ def head(title, desc, path, img='syls-carpet.jpg', extra_schema=None):
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<meta name="theme-color" content="#3D3C8A">
+<meta name="theme-color" content="#2A4C9E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -375,7 +375,7 @@ for f in os.listdir(os.path.join(ROOT, 'src/photos')):
         r = im if im.width <= w else im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
         r.save(os.path.join(A, f'{base}-{w}.webp'), 'WEBP', quality=72, method=6)
 open(os.path.join(A, 'favicon.svg'), 'w').write(
-    f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#3D3C8A"/>'
+    f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#2A4C9E"/>'
     f'<svg x="6" y="12" width="52" height="40" viewBox="{VB}"><path fill="#FFFFFF" fill-rule="evenodd" d="{P}"/></svg></svg>')
 pages = ['/', '/carpet-upholstery/', '/tile-grout/', '/floor-care/', '/area-rugs/', '/contact/'] + [h for h, _ in AREA_LINKS]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
