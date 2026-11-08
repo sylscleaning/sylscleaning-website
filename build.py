@@ -140,6 +140,12 @@ def cta(title, sub=None):
             f'<div class="btns"><a class="btn btn-w" href="/contact/">Request a free quote</a>'
             f'<a class="btn btn-o" href="{TEL}">Call {PHONE}</a></div></div></section>')
 
+def pic(name, alt, extra=''):
+    base = name.rsplit('.', 1)[0]
+    return (f'<picture><source type="image/webp" srcset="/assets/{base}-800.webp 800w, /assets/{base}-1400.webp 1400w" '
+            f'sizes="(max-width: 860px) 100vw, 600px">'
+            f'<img src="/assets/{name}" alt="{alt}" width="1400" height="1046" fetchpriority="high" decoding="async"{extra}></picture>')
+
 def write(path, html):
     out = os.path.join(DIST, path.strip('/'), 'index.html') if path != '/' else os.path.join(DIST, 'index.html')
     os.makedirs(os.path.dirname(out), exist_ok=True)
@@ -172,7 +178,7 @@ home = head(
 <p class="lead">Carpet, upholstery, tile and floor care for homes, businesses and apartment communities across {AREA}.</p>
 {btns()}
 </div>
-<div class="photo"><img src="/assets/syls-carpet.jpg" alt="Syl&rsquo;s technician deep-cleaning a living room carpet" width="1400" height="1046" fetchpriority="high"><div class="seal">{B.badge(150)}</div></div>
+<div class="photo">{pic("syls-carpet.jpg", "Syl&rsquo;s technician deep-cleaning a living room carpet")}<div class="seal">{B.badge(150)}</div></div>
 </div></section>
 <section class="wrap slogan"><p>Reliability in Professional Cleaning</p></section>
 <section class="wrap s"><h2>What we clean</h2><p class="sub">One call covers every surface in your home or building.</p><div class="grid">{cards_html}</div></section>
@@ -200,7 +206,7 @@ def service(path, key, title, h1, desc, intro, img, alt, items, great, cta_title
 <p class="lead">{intro}</p>
 {btns()}
 </div>
-<div class="photo"><img src="/assets/{img}" alt="{alt}" width="1400" height="1046" fetchpriority="high"></div>
+<div class="photo">{pic(img, alt)}</div>
 </div></section>
 <section class="wrap s"><h2>{items_heading}</h2><ul class="checks">{checks}</ul>{chips}</section>
 <section class="wrap s"><h2>Common questions</h2><div class="faqs">{faq_html}</div></section>
@@ -218,7 +224,11 @@ service('/carpet-upholstery/', 'carpet',
     ['Wall-to-wall carpet', 'Spot &amp; stain treatment', 'Sofas, sectionals &amp; chairs', 'Mattresses', 'Vehicle seats &amp; carpet', 'Carpet repair'],
     ['Homes', 'Apartment communities', 'Offices', 'Move-in / move-out'],
     'Ready for fresher carpet and furniture?',
-    [('What areas do you serve?', f'We clean homes, businesses and apartment communities across {AREA_SHORT} in Wisconsin.'),
+    [('How do you clean carpet?', 'We use truck-mounted hot water extraction. The powerful equipment stays in our van, so we can lift deep-down dirt and rinse it away without bringing loud machines into your home.'),
+     ('How long does carpet take to dry?', 'Usually just a few hours. Drying time varies with the carpet, humidity and airflow, and opening windows or running fans helps it dry faster.'),
+     ('Is it safe for kids and pets?', 'Yes. Our cleaning products are safe for kids and pets once dry, and we treat pet stains and odors.'),
+     ('How much does a cleaning cost?', 'Every job is different, so pricing depends on the size, the number of rooms or pieces and their condition. Request a free quote and we&rsquo;ll give you a clear price before any work starts.'),
+     ('What areas do you serve?', f'We clean homes, businesses and apartment communities across {AREA_SHORT} in Wisconsin.'),
      ('Do you clean furniture as well as carpet?', 'Yes. We clean sofas, sectionals, chairs and mattresses, plus vehicle seats and carpet.'),
      ('How do I get a quote?', f'Send a request on our Request a Quote page or call {PHONE}. We&rsquo;ll reach out to schedule.')])
 
@@ -232,6 +242,7 @@ service('/tile-grout/', 'tile',
     ['Kitchens', 'Bathrooms', 'Entryways', 'Spas &amp; commercial spaces'],
     'Ready for brighter tile and grout?',
     [('Why doesn&rsquo;t mopping get my grout clean?', 'Grout is porous, so dirt settles below the surface where a mop can&rsquo;t reach. Professional deep cleaning lifts it back out.'),
+     ('How much does a cleaning cost?', 'Every job is different, so pricing depends on the size, the number of rooms or pieces and their condition. Request a free quote and we&rsquo;ll give you a clear price before any work starts.'),
      ('Do you clean commercial tile floors?', 'Yes. We clean tile for homes as well as spas, offices and other commercial spaces.'),
      ('How do I get a quote?', f'Send a request on our Request a Quote page or call {PHONE}.')])
 
@@ -245,6 +256,7 @@ service('/floor-care/', 'floor',
     ['Apartment hallways', 'Lobbies', 'Offices', 'Kitchens &amp; laundry rooms'],
     'Ready to bring your floors back to a shine?',
     [('What does strip and wax mean?', 'We remove the old, worn floor finish down to the surface, then apply fresh coats of wax so the floor shines and is protected.'),
+     ('How much does a cleaning cost?', 'Every job is different, so pricing depends on the size, the number of rooms or pieces and their condition. Request a free quote and we&rsquo;ll give you a clear price before any work starts.'),
      ('Do you offer recurring floor care?', 'Yes. We can do a one-time strip and wax or set up recurring service for apartment buildings and businesses.'),
      ('How do I get a quote?', f'Send a request on our Request a Quote page or call {PHONE}.')],
     items_heading='What&rsquo;s included')
@@ -258,6 +270,8 @@ service('/area-rugs/', 'rugs',
     ['Everyday area rugs', 'Oriental &amp; specialty rugs', 'Spot, stain &amp; odor treatment'],
     None, 'Have a rug that needs some love?',
     [('Do you clean oriental rugs?', 'Yes. We clean oriental and specialty rugs as well as everyday area rugs.'),
+     ('Can you get pet odors out of rugs?', 'We treat pet stains and odors in area rugs, and our products are safe for kids and pets once dry.'),
+     ('How much does a cleaning cost?', 'Every job is different, so pricing depends on the size, the number of rooms or pieces and their condition. Request a free quote and we&rsquo;ll give you a clear price before any work starts.'),
      ('How do I get a quote?', f'Send a request on our Request a Quote page or call {PHONE}.')])
 
 # ---------------- COUNTY / SERVICE-AREA PAGES ----------------
@@ -306,7 +320,7 @@ for slug, name, towns, intro in AREAS:
 <p class="lead">{intro}</p>
 {btns()}
 </div>
-<div class="photo"><img src="/assets/syls-carpet.jpg" alt="Syl&rsquo;s technician cleaning carpet in a {name} home" width="1400" height="1046" fetchpriority="high"><div class="seal">{B.badge(150)}</div></div>
+<div class="photo">{pic("syls-carpet.jpg", f"Syl&rsquo;s technician cleaning carpet in a {name} home")}<div class="seal">{B.badge(150)}</div></div>
 </div></section>
 <section class="wrap s"><h2>Services in {name}</h2><p class="sub">Locally owned &amp; operated since 1977. Reliability in professional cleaning.</p><div class="grid">{svc_html}</div></section>
 <section class="wrap s area"><div><h2>Communities we serve</h2><p class="sub">Homes, businesses and apartment communities in and around:</p></div><ul class="area-list">{towns_html}</ul></section>
@@ -349,8 +363,17 @@ open(os.path.join(DIST, '404.html'), 'w').write(nf.replace('<link rel="canonical
 # ---------------- assets, sitemap, robots ----------------
 A = os.path.join(DIST, 'assets'); os.makedirs(A, exist_ok=True)
 shutil.copy(os.path.join(ROOT, 'styles.css'), A)
+from PIL import Image
 for f in os.listdir(os.path.join(ROOT, 'src/photos')):
-    shutil.copy(os.path.join(os.path.join(ROOT, 'src/photos'), f), A)
+    src = os.path.join(ROOT, 'src/photos', f)
+    if not f.endswith('.jpg'):
+        shutil.copy(src, A); continue
+    im = Image.open(src).convert('RGB')
+    im.save(os.path.join(A, f), 'JPEG', quality=78, optimize=True, progressive=True)
+    base = f[:-4]
+    for w in (800, 1400):
+        r = im if im.width <= w else im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
+        r.save(os.path.join(A, f'{base}-{w}.webp'), 'WEBP', quality=72, method=6)
 open(os.path.join(A, 'favicon.svg'), 'w').write(
     f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#3D3C8A"/>'
     f'<svg x="6" y="12" width="52" height="40" viewBox="{VB}"><path fill="#FFFFFF" fill-rule="evenodd" d="{P}"/></svg></svg>')
