@@ -11,6 +11,8 @@ TEL = 'tel:+12623380783'
 GADS_ID = 'AW-18568144859'                      # Google Ads tag
 GADS_CONV = 'AW-18568144859/62vlCKq1vLYdENvP_ZVF'  # "Contact" conversion action
 EMAIL = 'info@sylscleaning.com'
+FACEBOOK = 'https://www.facebook.com/sylscleaning/'
+LINKEDIN = 'https://www.linkedin.com/company/sylscleaning'
 PLACE_ID = 'ChIJuaOfLJBfBIgRh1MwdoSoQuU'
 GMAPS = f'https://www.google.com/maps/place/?q=place_id:{PLACE_ID}'
 REVIEW_URL = f'https://search.google.com/local/writereview?placeid={PLACE_ID}'
@@ -34,6 +36,7 @@ NAV = [
     ('tile', 'Tile &amp; Grout', '/tile-grout/'),
     ('floor', 'Floor Care', '/floor-care/'),
     ('rugs', 'Area Rugs', '/area-rugs/'),
+    ('commercial', 'Commercial', '/commercial/'),
 ]
 
 def svg(paths, size=28, stroke='#2A4C9E', sw=1.8):
@@ -41,11 +44,14 @@ def svg(paths, size=28, stroke='#2A4C9E', sw=1.8):
             f'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{paths}</svg>')
 
 ICON = {
+    'commercial': '<path d="M3 21h18"/><path d="M5 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16"/><path d="M15 9h3a1 1 0 0 1 1 1v11"/><path d="M8 8h1M11 8h1M8 12h1M11 12h1M8 16h1M11 16h1"/>',
     'carpet': '<path d="M4 11V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3"/><path d="M2 13a2 2 0 0 1 4 0v2h12v-2a2 2 0 0 1 4 0v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/><path d="M5 18v2M19 18v2"/>',
     'tile': '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>',
     'floor': '<path d="M11 3l1.8 4.2L17 9l-4.2 1.8L11 15l-1.8-4.2L5 9l4.2-1.8z"/><path d="M18.5 14l.8 1.9 1.9.8-1.9.8-.8 1.9-.8-1.9-1.9-.8 1.9-.8z"/><path d="M3 21h18"/>',
     'rugs': '<rect x="5" y="5" width="14" height="14" rx="1"/><rect x="9" y="9" width="6" height="6"/><path d="M5 8H3M5 12H3M5 16H3M19 8h2M19 12h2M19 16h2"/>',
 }
+FB_IC = '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5H16l.4-3H13.5V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21z"/></svg>'
+LI_IC = '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM3.3 9h3.4v11.5H3.3zM9 9h3.3v1.6h.1c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.2 2.4 4.2 5.4v6.4h-3.4v-5.7c0-1.4 0-3.1-1.9-3.1s-2.2 1.5-2.2 3v5.8H9z"/></svg>'
 CHECK = svg('<path d="M5 12l5 5L20 7"/>', 22, sw=2.4)
 PHONE_IC = svg('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>', 18, 'currentColor', 2)
 
@@ -66,12 +72,13 @@ SCHEMA = {
     "address": {"@type": "PostalAddress", "streetAddress": "3750 S River Rd", "addressLocality": "West Bend", "addressRegion": "WI", "postalCode": "53095", "addressCountry": "US"},
     "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "08:00", "closes": "17:00"}],
     "hasMap": "https://www.google.com/maps/place/?q=place_id:ChIJuaOfLJBfBIgRh1MwdoSoQuU",
+    "sameAs": ["https://www.facebook.com/sylscleaning/", "https://www.linkedin.com/company/sylscleaning"],
     "areaServed": [{"@type": "AdministrativeArea", "name": c + ", WI"} for c in COUNTIES],
     "hasOfferCatalog": {
         "@type": "OfferCatalog", "name": "Cleaning services",
         "itemListElement": [
             {"@type": "Offer", "itemOffered": {"@type": "Service", "name": n}} for n in
-            ["Carpet cleaning", "Upholstery cleaning", "Tile and grout cleaning", "Floor stripping and waxing", "Area rug cleaning"]
+            ["Carpet cleaning", "Commercial carpet cleaning", "Upholstery cleaning", "Tile and grout cleaning", "Floor stripping and waxing", "Area rug cleaning"]
         ]
     },
 }
@@ -118,7 +125,7 @@ window.addEventListener('blur',function(){{setTimeout(function(){{var f=document
 
 def header(active):
     links = ''.join(
-        f'<a href="{href}"{" aria-current=\"page\"" if k == active else ""}>{label}</a>' for k, label, href in NAV)
+        f'<a href="{href}"{" aria-current=\"page\"" if k == active else ""}>{label}</a>' for k, label, href in NAV + [('reviews', 'Reviews', '/reviews/')])
     return f"""<a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
 <div class="wrap hdr">
@@ -141,7 +148,7 @@ def footer():
 <div class="foot-brand">{B.badge(132)}<p class="foot-slogan">Reliability in Professional Cleaning</p><p>Locally owned &amp; operated since 1977. Serving {AREA}.</p></div>
 <div class="foot-col"><h2>Services</h2>{svc}</div>
 <div class="foot-col"><h2>Service areas</h2>{areas}</div>
-<div class="foot-col"><h2>Contact</h2><a href="{TEL}">{PHONE}</a><a href="mailto:{EMAIL}">{EMAIL}</a><span>3750 S River Rd, West Bend, WI 53095</span><span>{HOURS}<br>{HOURS_NOTE}</span><a class="strong" href="/contact/">Request a free quote &rarr;</a><a class="strong" href="{REVIEW_URL}" target="_blank" rel="noopener">&#9733; Leave us a Google review</a></div>
+<div class="foot-col"><h2>Contact</h2><a href="{TEL}">{PHONE}</a><a href="mailto:{EMAIL}">{EMAIL}</a><span>3750 S River Rd, West Bend, WI 53095</span><span>{HOURS}<br>{HOURS_NOTE}</span><a class="strong" href="/contact/">Request a free quote &rarr;</a><a href="/reviews/">Customer reviews</a><a class="strong" href="{REVIEW_URL}" target="_blank" rel="noopener">&#9733; Leave us a Google review</a><div class="social"><a href="{FACEBOOK}" target="_blank" rel="noopener" aria-label="Syl&rsquo;s Cleaning on Facebook">{FB_IC}</a><a href="{LINKEDIN}" target="_blank" rel="noopener" aria-label="Syl&rsquo;s Cleaning on LinkedIn">{LI_IC}</a></div></div>
 </div>
 <div class="wrap foot-bottom"><span>&copy; <span id="yr">2026</span> Syl&rsquo;s Carpet &amp; Upholstery Cleaning</span><span>sylscleaning.com</span></div>
 </footer>
@@ -172,12 +179,31 @@ def write(path, html):
     os.makedirs(os.path.dirname(out), exist_ok=True)
     open(out, 'w').write(html)
 
+
+# Real Google reviews (verbatim; "..." marks shortened text). First name + last initial only.
+REVIEW_LIST = [
+    ('Marianne S.', 'Whole-home carpet before a sale', 'Mike and Carson were on time, polite and professional. They did an amazing job cleaning the carpets in my entire home to get it ready for sale, even getting out tough stains and pet accidents. Very reasonably priced too - I highly recommend them!'),
+    ('Todd W.', 'Church &amp; home carpet', 'Everything about Syl&rsquo;s is top notch. I was referred to them by our pastor where they did the carpet cleaning at our church in West Bend. &hellip; The crew that came to my house was courteous, professional and very accommodating. &hellip; Everything looks great; all spots removed and the carpet looks like new.'),
+    ('Norma J.', 'Carpet cleaning', 'Always on time and does an awesome job. Some carpets look like there&rsquo;s no hope for them but the guys surprise me and the carpet looks fantastic. I would recommend Syl&rsquo;s to anyone that needs a good company to clean their carpets.'),
+    ('Janet E.', 'Area rug', 'Terrific service with great pricing. Left my 9x12 area rug literally looking like new in less than 30 minutes. &hellip; I highly recommend Syl&rsquo;s and will use them again if I need furniture or carpets cleaned.'),
+    ('Marissa H.', 'New home carpet &amp; rugs', 'Professional, effective, affordable. I used them to clean the carpets in a house I just bought and I was so satisfied that I brought my area rugs to them to be cleaned as well!'),
+    ('David C.', 'Carpet cleaning', '2 years in a row I&rsquo;ve used them, very friendly and does a great job. So nice that they move the furniture, my wife is expecting and can&rsquo;t do these things when I&rsquo;m away. Very happy with their service. 5 stars all day.'),
+    ('Marilynn G.', 'Upholstery', 'Excellent work. So clean. Another upholstery cleaner could not get it clean.'),
+    ('OBrian O.', 'Carpet cleaning', 'Very professional service. Great price! Very pleasant! Outstanding service. No fuss no muss! Carpet looks new and smells great!'),
+    ('Karen H.', 'Area rug', 'Cleaned a 5 x 8 ft. area rug beautifully and fair price.'),
+]
+def review_cards(items):
+    return ''.join(f'<figure class="review"><div class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>'
+                   f'<blockquote>&ldquo;{t}&rdquo;</blockquote><figcaption><strong>{n}</strong><span>{j}</span></figcaption></figure>'
+                   for n, j, t in items)
+
 # ---------------- HOME ----------------
 cards = [
     ('carpet', 'Carpet &amp; Upholstery', 'Deep-cleaned carpet, sofas, chairs and mattresses.', '/carpet-upholstery/'),
     ('tile', 'Tile &amp; Grout', 'Grime lifted from tile and grout lines, back to bright.', '/tile-grout/'),
     ('floor', 'Floor Care', 'Strip &amp; wax that brings hard floors back to a shine.', '/floor-care/'),
     ('rugs', 'Area Rugs', 'Gentle, thorough cleaning for the rugs you love.', '/area-rugs/'),
+    ('commercial', 'Commercial Cleaning', 'Offices, apartment communities, churches and more.', '/commercial/'),
 ]
 cards_html = ''.join(
     f'<a class="card" href="{h}"><span class="ic">{svg(ICON[k])}</span><h3>{t}</h3><p>{d}</p><span class="more">Learn more &rarr;</span></a>'
@@ -203,6 +229,7 @@ home = head(
 </div></section>
 <section class="wrap slogan"><p>Reliability in Professional Cleaning</p></section>
 <section class="wrap s"><h2>What we clean</h2><p class="sub">One call covers every surface in your home or building.</p><div class="grid">{cards_html}</div></section>
+<section class="wrap s"><h2>What our customers say</h2><p class="sub">Rated {RATING} stars from {REVIEWS} Google reviews.</p><div class="reviews">{review_cards(REVIEW_LIST[:3])}</div><p class="more-link"><a href="/reviews/">Read more reviews &rarr;</a></p></section>
 <section class="wrap s"><h2>Getting a cleaning is easy</h2><div class="grid">{steps_html}</div></section>
 <section class="wrap s area"><div><h2>Proudly serving southeastern Wisconsin</h2><p class="sub">Homes, businesses and apartment communities throughout:</p></div><ul class="area-list">{area_html}</ul></section>
 {cta('Ready for a cleaner space?', 'Send us a quick request and we&rsquo;ll reach out to schedule.')}
@@ -313,7 +340,8 @@ AREAS = [
 SVC_LINKS = [('Carpet &amp; Upholstery Cleaning', '/carpet-upholstery/', 'Carpet, sofas, sectionals, chairs and mattresses.'),
              ('Tile &amp; Grout Cleaning', '/tile-grout/', 'Kitchens, bathrooms, showers and entryways.'),
              ('Floor Care (Strip &amp; Wax)', '/floor-care/', 'Vinyl and VCT floors, hallways, lobbies and offices.'),
-             ('Area Rug Cleaning', '/area-rugs/', 'Everyday area rugs and oriental rugs.')]
+             ('Area Rug Cleaning', '/area-rugs/', 'Everyday area rugs and oriental rugs.'),
+             ('Commercial Cleaning', '/commercial/', 'Offices, apartment communities, churches and businesses.')]
 
 for slug, name, towns, intro in AREAS:
     path = f'/service-areas/{slug}/'
@@ -349,6 +377,88 @@ for slug, name, towns, intro in AREAS:
 {cta(f'Ready for a cleaner space in {name}?', 'Send us a quick request and we&rsquo;ll reach out to schedule.')}
 """ + footer()
     write(path, html)
+
+# ---------------- COMMERCIAL ----------------
+BUILDINGS = [
+    ('Offices', 'Carpeted work areas, conference rooms, lobbies and office chairs.'),
+    ('Apartment communities', 'Hallways, common areas, and units between tenants.'),
+    ('Churches', 'Sanctuaries, fellowship halls, classrooms and entryways.'),
+    ('Retail shops &amp; showrooms', 'High-traffic floors that need to look sharp for customers.'),
+    ('Medical &amp; dental offices', 'Waiting rooms, hallways and upholstered seating.'),
+    ('Schools &amp; daycares', 'Classrooms, hallways and gyms, scheduled around your calendar.'),
+    ('Salons &amp; spas', 'Tile, grout and hard floors in wet and busy areas.'),
+    ('Rental &amp; move-out turnovers', 'Carpet and floors ready for the next tenant or buyer.'),
+]
+COMM_ITEMS = ['Commercial carpet &amp; walk-off areas', 'Hallway &amp; common-area carpet', 'Lobby furniture &amp; office chairs',
+              'Restroom &amp; kitchen tile and grout', 'Floor strip &amp; wax (VCT &amp; vinyl)', 'Area rugs &amp; entry rugs']
+WHY = [('Scheduled around you', f'Evening and Saturday appointments are available, so your doors stay open and your team keeps working.'),
+       ('One-time or recurring', 'Book a single deep clean or set up a regular schedule for carpet and floor care.'),
+       ('Truck-mounted equipment', 'The powerful machines stay in our van outside, so the work is thorough without loud equipment in your building.'),
+       ('One call, every surface', 'Carpet, upholstery, tile and grout, and hard floors, handled by one local company since 1977.')]
+comm_faq = [
+    ('Can you clean after hours?', 'Yes. Weekday service runs Monday through Friday, 8 AM to 5 PM, and evening and Saturday appointments are available so cleaning doesn&rsquo;t interrupt your business.'),
+    ('Do you offer recurring service?', 'Yes. We can set up a recurring schedule for carpet cleaning or floor strip and wax, or come out for a one-time deep clean.'),
+    ('Do you clean apartments between tenants?', 'Yes. We clean carpet and floors in units between tenants, plus hallways and common areas for apartment communities.'),
+    ('How do I get a commercial quote?', f'Send a request on our Request a Quote page or call {PHONE}. We&rsquo;ll go over your space and give you a clear price before any work starts.')]
+clean_txt = lambda s: re.sub('&amp;', '&', re.sub('&rsquo;', "'", s))
+comm_schema = {"@context": "https://schema.org", "@graph": [
+    {"@type": "Service", "name": "Commercial carpet, upholstery, tile and floor cleaning", "serviceType": "Commercial cleaning",
+     "provider": {"@id": SITE + "/#business"}, "areaServed": [{"@type": "AdministrativeArea", "name": c + ", WI"} for c in COUNTIES]},
+    {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": clean_txt(q), "acceptedAnswer": {"@type": "Answer", "text": clean_txt(a)}} for q, a in comm_faq]}]}
+bld_html = ''.join(f'<div class="card"><span class="ic">{svg(ICON["commercial"])}</span><h3>{t}</h3><p>{d}</p></div>' for t, d in BUILDINGS)
+why_html = ''.join(f'<div class="step"><span class="step-n">{CHECK.replace("#2A4C9E", "#fff")}</span><h3>{t}</h3><p>{d}</p></div>' for t, d in WHY)
+comm_checks = ''.join(f'<li class="check">{CHECK}<span>{i}</span></li>' for i in COMM_ITEMS)
+comm_faq_html = ''.join(f'<details class="faq"><summary>{q}</summary><p>{a}</p></details>' for q, a in comm_faq)
+commercial = head(
+    "Commercial Carpet & Floor Cleaning | Syl's Cleaning, WI",
+    f"Commercial carpet cleaning, upholstery, tile & grout and floor strip & wax for offices, apartment communities, churches and businesses in {AREA_SHORT}. After-hours available.",
+    '/commercial/', 'syls-floor.jpg', comm_schema) + header('commercial') + f"""
+<section class="wrap hero-wrap"><div class="hero">
+<div class="hero-txt">
+<p class="eyebrow">Commercial cleaning</p>
+<h1>Commercial Carpet &amp; Floor Cleaning</h1>
+<p class="lead">Clean carpet and floors make a strong first impression. We keep offices, apartment communities, churches and businesses looking their best, on a schedule that works around you.</p>
+{btns()}
+</div>
+<div class="photo">{pic("syls-floor.jpg", "Freshly cleaned commercial hallway floor")}</div>
+</div></section>
+<section class="wrap s"><h2>What we clean for businesses</h2><ul class="checks">{comm_checks}</ul></section>
+<section class="wrap s"><h2>Buildings we clean</h2><p class="sub">From a single office to a full apartment community.</p><div class="grid">{bld_html}</div></section>
+<section class="wrap s"><h2>Why businesses choose Syl&rsquo;s</h2><div class="grid">{why_html}</div></section>
+<section class="wrap s"><div class="reviews one">{review_cards([REVIEW_LIST[1]])}</div></section>
+<section class="wrap s"><h2>Common questions</h2><div class="faqs">{comm_faq_html}</div></section>
+{cta('Need a cleaner building?', 'Tell us about your space and we&rsquo;ll put together a free quote.')}
+""" + footer()
+write('/commercial/', commercial)
+
+# ---------------- REVIEWS ----------------
+PROJECTS = [
+    ('carpet', 'Whole-home carpet before a sale', 'Every room deep-cleaned, tough stains and pet accidents treated, so the home shows its best.', '/carpet-upholstery/'),
+    ('carpet', 'Move-in cleaning for a new home', 'Fresh, clean carpet before the furniture arrives in a home you just bought.', '/carpet-upholstery/'),
+    ('commercial', 'Church &amp; office carpet', 'High-traffic carpet in churches, offices and common areas, scheduled around your hours.', '/commercial/'),
+    ('rugs', 'Area &amp; oriental rugs', 'Everyday rugs and specialty rugs cleaned with care to bring back color and softness.', '/area-rugs/'),
+    ('carpet', 'Sofas, chairs &amp; mattresses', 'Upholstery cleaned deep, including pieces other cleaners couldn&rsquo;t get clean.', '/carpet-upholstery/'),
+    ('floor', 'Hallway &amp; lobby strip and wax', 'Worn finish stripped away and fresh wax applied on vinyl and VCT floors.', '/floor-care/'),
+]
+proj_html = ''.join(f'<a class="card" href="{h}"><span class="ic">{svg(ICON[k])}</span><h3>{t}</h3><p>{d}</p><span class="more">Learn more &rarr;</span></a>' for k, t, d, h in PROJECTS)
+reviews_page = head(
+    "Customer Reviews | Syl's Cleaning, West Bend WI",
+    f"Rated {RATING} stars from {REVIEWS} Google reviews. See what customers in {AREA_SHORT} say about Syl's carpet, upholstery, rug and floor cleaning.",
+    '/reviews/') + header('reviews') + f"""
+<section class="wrap hero-wrap"><div class="hero">
+<div class="hero-txt">
+<p class="eyebrow">Customer reviews</p>
+<h1><span class="stars-lg" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>{RATING} stars from {REVIEWS} Google reviews</h1>
+<p class="lead">Families and businesses across {AREA_SHORT} have trusted Syl&rsquo;s since 1977. Here&rsquo;s what they say.</p>
+<div class="btns"><a class="btn btn-w" href="{GMAPS}" target="_blank" rel="noopener">See all reviews on Google</a><a class="btn btn-o" href="{REVIEW_URL}" target="_blank" rel="noopener">Leave a review</a></div>
+</div>
+<div class="photo">{pic("syls-carpet.jpg", "Syl&rsquo;s technician deep-cleaning a living room carpet")}<div class="seal">{B.badge(150)}</div></div>
+</div></section>
+<section class="wrap s"><h2>What our customers say</h2><div class="reviews">{review_cards(REVIEW_LIST)}</div><p class="more-link"><a href="{GMAPS}" target="_blank" rel="noopener">Read all {REVIEWS} reviews on Google &rarr;</a></p></section>
+<section class="wrap s"><h2>Projects we do</h2><p class="sub">The jobs our customers call us for most, for homes and businesses alike.</p><div class="grid">{proj_html}</div></section>
+{cta('Ready to be our next 5-star review?', 'Send us a quick request and we&rsquo;ll reach out to schedule.')}
+""" + footer()
+write('/reviews/', reviews_page)
 
 # ---------------- REQUEST A QUOTE ----------------
 quote = head(
@@ -399,7 +509,7 @@ for f in os.listdir(os.path.join(ROOT, 'src/photos')):
 open(os.path.join(A, 'favicon.svg'), 'w').write(
     f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#2A4C9E"/>'
     f'<svg x="6" y="12" width="52" height="40" viewBox="{VB}"><path fill="#FFFFFF" fill-rule="evenodd" d="{P}"/></svg></svg>')
-pages = ['/', '/carpet-upholstery/', '/tile-grout/', '/floor-care/', '/area-rugs/', '/contact/'] + [h for h, _ in AREA_LINKS]
+pages = ['/', '/carpet-upholstery/', '/tile-grout/', '/floor-care/', '/area-rugs/', '/commercial/', '/reviews/', '/contact/'] + [h for h, _ in AREA_LINKS]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
      ''.join(f'  <url><loc>{SITE}{p}</loc></url>\n' for p in pages) + '</urlset>\n'
 open(os.path.join(DIST, 'sitemap.xml'), 'w').write(sm)
@@ -422,6 +532,12 @@ llms = f"""# Syl's Cleaning (Syl's Carpet & Upholstery Cleaning)
 - [Tile & Grout Cleaning]({SITE}/tile-grout/): ceramic and porcelain tile, grout lines, kitchens, bathrooms, showers, entryways, commercial tile
 - [Floor Care (Strip & Wax)]({SITE}/floor-care/): stripping and waxing vinyl, VCT and other hard floors; apartment hallways, lobbies, offices; one-time or recurring
 - [Area Rug Cleaning]({SITE}/area-rugs/): everyday area rugs and oriental rugs
+- [Commercial Cleaning]({SITE}/commercial/): offices, apartment communities, churches, retail, medical and dental offices, schools, salons and rental turnovers; evening and Saturday appointments; one-time or recurring
+
+## Reviews
+- Rated {RATING} stars from {REVIEWS} Google reviews: [customer reviews]({SITE}/reviews/)
+- Facebook: {FACEBOOK}
+- LinkedIn: {LINKEDIN}
 
 ## Service areas
 """ + ''.join(f"- [{n}]({SITE}/service-areas/{sl}/): {', '.join(ts)}\n" for sl, n, ts, _ in AREAS) + f"""
