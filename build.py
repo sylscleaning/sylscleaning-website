@@ -9,6 +9,12 @@ SITE = 'https://sylscleaning.com'
 PHONE = '262-338-0783'
 TEL = 'tel:+12623380783'
 EMAIL = 'info@sylscleaning.com'
+PLACE_ID = 'ChIJuaOfLJBfBIgRh1MwdoSoQuU'
+GMAPS = f'https://www.google.com/maps/place/?q=place_id:{PLACE_ID}'
+REVIEW_URL = f'https://search.google.com/local/writereview?placeid={PLACE_ID}'
+RATING, REVIEWS = '4.9', '34'
+HOURS = 'Mon&ndash;Fri 8 AM&ndash;5 PM'
+HOURS_NOTE = 'Saturday &amp; evening appointments available'
 AREA = 'Washington, Ozaukee, Waukesha and Dodge Counties'
 COUNTIES = ['Washington County', 'Ozaukee County', 'Waukesha County', 'Dodge County']
 AREA_LINKS = [('/service-areas/' + c.lower().replace(' ', '-') + '/', c) for c in COUNTIES]
@@ -55,7 +61,9 @@ SCHEMA = {
     "foundingDate": "1977",
     "slogan": "Reliability in Professional Cleaning",
     "description": "Locally owned and operated carpet, upholstery, tile & grout, floor care (strip and wax) and area rug cleaning since 1977.",
-    "address": {"@type": "PostalAddress", "addressRegion": "WI", "addressCountry": "US"},
+    "address": {"@type": "PostalAddress", "streetAddress": "3750 S River Rd", "addressLocality": "West Bend", "addressRegion": "WI", "postalCode": "53095", "addressCountry": "US"},
+    "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "08:00", "closes": "17:00"}],
+    "hasMap": "https://www.google.com/maps/place/?q=place_id:ChIJuaOfLJBfBIgRh1MwdoSoQuU",
     "areaServed": [{"@type": "AdministrativeArea", "name": c + ", WI"} for c in COUNTIES],
     "hasOfferCatalog": {
         "@type": "OfferCatalog", "name": "Cleaning services",
@@ -121,7 +129,7 @@ def footer():
 <div class="foot-brand">{B.badge(132)}<p class="foot-slogan">Reliability in Professional Cleaning</p><p>Locally owned &amp; operated since 1977. Serving {AREA}.</p></div>
 <div class="foot-col"><h2>Services</h2>{svc}</div>
 <div class="foot-col"><h2>Service areas</h2>{areas}</div>
-<div class="foot-col"><h2>Contact</h2><a href="{TEL}">{PHONE}</a><a href="mailto:{EMAIL}">{EMAIL}</a><a class="strong" href="/contact/">Request a free quote &rarr;</a></div>
+<div class="foot-col"><h2>Contact</h2><a href="{TEL}">{PHONE}</a><a href="mailto:{EMAIL}">{EMAIL}</a><span>3750 S River Rd, West Bend, WI 53095</span><span>{HOURS}<br>{HOURS_NOTE}</span><a class="strong" href="/contact/">Request a free quote &rarr;</a><a class="strong" href="{REVIEW_URL}" target="_blank" rel="noopener">&#9733; Leave us a Google review</a></div>
 </div>
 <div class="wrap foot-bottom"><span>&copy; <span id="yr">2026</span> Syl&rsquo;s Carpet &amp; Upholstery Cleaning</span><span>sylscleaning.com</span></div>
 </footer>
@@ -132,7 +140,8 @@ def footer():
 
 def btns():
     return (f'<div class="btns"><a class="btn btn-w" href="/contact/">Request a free quote</a>'
-            f'<a class="btn btn-o" href="{TEL}">{PHONE_IC}<span>{PHONE}</span></a></div>')
+            f'<a class="btn btn-o" href="{TEL}">{PHONE_IC}<span>{PHONE}</span></a></div>'
+            f'<a class="rev" href="{GMAPS}" target="_blank" rel="noopener"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <strong>{RATING}</strong> from {REVIEWS} Google reviews</a>')
 
 def cta(title, sub=None):
     s = f'<p>{sub}</p>' if sub else ''
@@ -348,7 +357,8 @@ quote = head(
 </div>
 <aside class="quote-side">
 <div class="talk"><p class="label">Prefer to talk?</p><a class="big" href="{TEL}">{PHONE}</a><a href="mailto:{EMAIL}">{EMAIL}</a></div>
-<div class="info"><div><strong>Service area</strong><span>{AREA_SHORT}</span></div><div><strong>We serve</strong><span>Homes, businesses &amp; apartment communities</span></div></div>
+<div class="info"><div><strong>Hours</strong><span>{HOURS}<br>{HOURS_NOTE}</span></div><div><strong>Service area</strong><span>{AREA_SHORT}</span></div><div><strong>We serve</strong><span>Homes, businesses &amp; apartment communities</span></div></div>
+<div class="map"><iframe title="Map to Syl&rsquo;s Cleaning, 3750 S River Rd, West Bend" src="https://www.google.com/maps?q=3750+S+River+Rd,+West+Bend,+WI+53095&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><a href="{GMAPS}" target="_blank" rel="noopener">3750 S River Rd, West Bend &middot; Get directions &rarr;</a></div>
 </aside>
 </section>
 """ + footer()
