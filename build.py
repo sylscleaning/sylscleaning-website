@@ -81,7 +81,7 @@ SCHEMA = {
         "@type": "OfferCatalog", "name": "Cleaning services",
         "itemListElement": [
             {"@type": "Offer", "itemOffered": {"@type": "Service", "name": n}} for n in
-            ["Carpet cleaning", "Commercial carpet cleaning", "Upholstery cleaning", "Tile and grout cleaning", "Floor stripping and waxing", "Area rug cleaning"]
+            ["Carpet cleaning", "Commercial carpet cleaning", "Post-construction carpet and floor cleaning", "Upholstery cleaning", "Tile and grout cleaning", "Floor stripping and waxing", "Area rug cleaning"]
         ]
     },
 }
@@ -127,19 +127,28 @@ window.addEventListener('blur',function(){{setTimeout(function(){{var f=document
 <body>"""
 
 def header(active):
-    links = ''.join(
-        f'<a href="{href}"{" aria-current=\"page\"" if k == active else ""}>{label}</a>' for k, label, href in NAV + [('about', 'About', '/about/')])
+    svc_keys = [k for k, _, _ in NAV if k != 'commercial']
+    svc_links = ''.join(
+        f'<a href="{href}"{" aria-current=\"page\"" if k == active else ""}>{label}</a>' for k, label, href in NAV if k != 'commercial')
+    svc_cur = ' aria-current="true"' if active in svc_keys else ''
+    top = ''.join(
+        f'<a href="{href}"{" aria-current=\"page\"" if k == active else ""}>{label}</a>'
+        for k, label, href in [('commercial', 'Commercial', '/commercial/'), ('about', 'About', '/about/')])
     return f"""<a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
 <div class="wrap hdr">
 <a class="brand" href="/" aria-label="Syl's Cleaning home">{wordmark(52)}</a>
-<nav class="nav" aria-label="Main">{links}</nav>
+<nav class="nav" aria-label="Main">
+<details class="dd"><summary{svc_cur}>Services <span class="caret" aria-hidden="true">&#9662;</span></summary><div class="dd-menu">{svc_links}</div></details>
+{top}
+</nav>
 <div class="hdr-cta">
 <a class="hdr-phone" href="{TEL}">{PHONE_IC}<span>{PHONE}</span></a>
 <a class="btn btn-b btn-sm" href="/contact/">Request a Quote</a>
 </div>
 </div>
 </header>
+<script>document.addEventListener('click',function(e){{document.querySelectorAll('details.dd[open]').forEach(function(d){{if(!d.contains(e.target))d.removeAttribute('open');}});}});document.addEventListener('keydown',function(e){{if(e.key==='Escape')document.querySelectorAll('details.dd[open]').forEach(function(d){{d.removeAttribute('open');}});}});</script>
 <main id="main">"""
 
 def footer():
@@ -391,14 +400,16 @@ BUILDINGS = [
     ('Schools &amp; daycares', 'Classrooms, hallways and gyms, scheduled around your calendar.'),
     ('Salons &amp; spas', 'Tile, grout and hard floors in wet and busy areas.'),
     ('Rental &amp; move-out turnovers', 'Carpet and floors ready for the next tenant or buyer.'),
+    ('New builds &amp; remodels', 'New homes, additions and remodeled spaces cleaned after the contractors finish.'),
 ]
-COMM_ITEMS = ['Commercial carpet &amp; walk-off areas', 'Hallway &amp; common-area carpet', 'Lobby furniture &amp; office chairs',
+COMM_ITEMS = ['Post-construction carpet &amp; floor cleaning', 'Commercial carpet &amp; walk-off areas', 'Hallway &amp; common-area carpet', 'Lobby furniture &amp; office chairs',
               'Restroom &amp; kitchen tile and grout', 'Floor strip &amp; wax (VCT &amp; vinyl)', 'Area rugs &amp; entry rugs']
 WHY = [('Scheduled around you', f'Evening and Saturday appointments are available, so your doors stay open and your team keeps working.'),
        ('One-time or recurring', 'Book a single deep clean or set up a regular schedule for carpet and floor care.'),
        ('Truck-mounted equipment', 'The powerful machines stay in our van outside, so the work is thorough without loud equipment in your building.'),
        ('One call, every surface', 'Carpet, upholstery, tile and grout, and hard floors, handled by one local company since 1977.')]
 comm_faq = [
+    ('Do you clean after construction or remodeling?', 'Yes. We deep-clean carpet, tile and grout, and hard floors after new construction, remodels and contractor work, removing drywall dust, sawdust, footprints and grime so the space is ready to move into or show.'),
     ('Can you clean after hours?', 'Yes. Weekday service runs Monday through Friday, 8 AM to 5 PM, and evening and Saturday appointments are available so cleaning doesn&rsquo;t interrupt your business.'),
     ('Do you offer recurring service?', 'Yes. We can set up a recurring schedule for carpet cleaning or floor strip and wax, or come out for a one-time deep clean.'),
     ('Do you clean apartments between tenants?', 'Yes. We clean carpet and floors in units between tenants, plus hallways and common areas for apartment communities.'),
@@ -409,6 +420,7 @@ comm_schema = {"@context": "https://schema.org", "@graph": [
      "provider": {"@id": SITE + "/#business"}, "areaServed": [{"@type": "AdministrativeArea", "name": c + ", WI"} for c in COUNTIES]},
     {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": clean_txt(q), "acceptedAnswer": {"@type": "Answer", "text": clean_txt(a)}} for q, a in comm_faq]}]}
 COMM_PROJECTS = [
+    ('commercial', 'Post-construction cleanup', 'New carpet and floors cleaned of construction dust and footprints before move-in or the final walkthrough.'),
     ('commercial', 'Church carpet', 'Sanctuaries, fellowship halls and classrooms cleaned between services and events.'),
     ('commercial', 'Office carpet &amp; chairs', 'Work areas, conference rooms and upholstered office chairs refreshed after hours.'),
     ('floor', 'Hallway &amp; lobby strip and wax', 'Worn finish stripped away and fresh wax applied on vinyl and VCT floors.'),
@@ -423,7 +435,7 @@ comm_checks = ''.join(f'<li class="check">{CHECK}<span>{i}</span></li>' for i in
 comm_faq_html = ''.join(f'<details class="faq"><summary>{q}</summary><p>{a}</p></details>' for q, a in comm_faq)
 commercial = head(
     "Commercial Carpet & Floor Cleaning | Syl's Cleaning, WI",
-    f"Commercial carpet cleaning, upholstery, tile & grout and floor strip & wax for offices, apartment communities, churches and businesses in {AREA_SHORT}. After-hours available.",
+    f"Commercial and post-construction carpet, tile & grout and floor cleaning for offices, apartments, churches, new homes and remodels in {AREA_SHORT}. After-hours available.",
     '/commercial/', 'syls-floor.jpg', comm_schema) + header('commercial') + f"""
 <section class="wrap hero-wrap"><div class="hero">
 <div class="hero-txt">
@@ -435,6 +447,12 @@ commercial = head(
 <div class="photo">{pic("syls-floor.jpg", "Freshly cleaned commercial hallway floor")}</div>
 </div></section>
 <section class="wrap s"><h2>What we clean for businesses</h2><ul class="checks">{comm_checks}</ul></section>
+<section class="wrap s" id="post-construction"><div class="split">
+<div><p class="eyebrow-d">New homes &middot; Remodels &middot; Contractor work</p><h2>Post-construction cleaning</h2>
+<p class="sub">Construction leaves more behind than you can see. Drywall dust, sawdust and grit settle deep into new carpet and grout lines, and work boots track it across every floor. Before anyone moves in, or before the final walkthrough, we deep-clean the carpet and floors so the space looks as new as it is.</p></div>
+<ul class="checks one-col">{''.join(f'<li class="check">{CHECK}<span>{i}</span></li>' for i in ['New homes before move-in', 'Remodels, additions &amp; basement finishes', 'Offices &amp; storefronts after a build-out', 'Apartment units after renovation', 'Drywall dust, sawdust &amp; footprints removed', 'Carpet, tile &amp; grout and hard floors'])}</ul>
+</div><p class="sub" style="margin-top:22px"><strong>Builders, contractors &amp; property managers:</strong> we&rsquo;re glad to be your go-to for final carpet and floor cleaning. Call <a href="{TEL}">{PHONE}</a> to set up your next project.</p></section>
+
 <section class="wrap s"><h2>Buildings we clean</h2><p class="sub">From a single office to a full apartment community.</p><div class="grid">{bld_html}</div></section>
 <section class="wrap s"><h2>Why businesses choose Syl&rsquo;s</h2><div class="grid">{why_html}</div></section>
 <section class="wrap s"><h2>Commercial projects we do</h2><p class="sub">The jobs businesses call us for most.</p><div class="grid">{comm_proj_html}</div></section>
@@ -550,7 +568,7 @@ llms = f"""# Syl's Cleaning (Syl's Carpet & Upholstery Cleaning)
 - [Tile & Grout Cleaning]({SITE}/tile-grout/): ceramic and porcelain tile, grout lines, kitchens, bathrooms, showers, entryways, commercial tile
 - [Floor Care (Strip & Wax)]({SITE}/floor-care/): stripping and waxing vinyl, VCT and other hard floors; apartment hallways, lobbies, offices; one-time or recurring
 - [Area Rug Cleaning]({SITE}/area-rugs/): everyday area rugs and oriental rugs
-- [Commercial Cleaning]({SITE}/commercial/): offices, apartment communities, churches, retail, medical and dental offices, schools, salons and rental turnovers; evening and Saturday appointments; one-time or recurring
+- [Commercial Cleaning]({SITE}/commercial/): offices, apartment communities, churches, retail, medical and dental offices, schools, salons and rental turnovers; post-construction carpet and floor cleaning for new homes, remodels and contractor work; evening and Saturday appointments; one-time or recurring
 
 ## Reviews
 - Rated {RATING} stars from {REVIEWS} Google reviews: [about us and customer reviews]({SITE}/about/)
