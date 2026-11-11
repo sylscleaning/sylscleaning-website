@@ -173,10 +173,12 @@ def footer():
 </html>
 """
 
-def btns():
-    return (f'<div class="btns"><a class="btn btn-w" href="/contact/">Request a free quote</a>'
-            f'<a class="btn btn-o" href="{TEL}">{PHONE_IC}<span>{PHONE}</span></a></div>'
-            f'<a class="rev" href="{GMAPS}" target="_blank" rel="noopener"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <strong>{RATING}</strong> from {REVIEWS} Google reviews</a>')
+def btns(rev=False):
+    out = (f'<div class="btns"><a class="btn btn-w" href="/contact/">Request a free quote</a>'
+           f'<a class="btn btn-o" href="{TEL}">{PHONE_IC}<span>{PHONE}</span></a></div>')
+    if rev:
+        out += f'<a class="rev" href="{GMAPS}" target="_blank" rel="noopener"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <strong>{RATING}</strong> from {REVIEWS} Google reviews</a>'
+    return out
 
 def cta(title, sub=None):
     s = f'<p>{sub}</p>' if sub else ''
@@ -239,7 +241,7 @@ home = head(
 <p class="pill">Locally owned &amp; operated &middot; Since 1977</p>
 <h1>Cleaner floors. Fresher furniture. Done right.</h1>
 <p class="lead">Carpet, upholstery, tile and floor care for homes, businesses and apartment communities across {AREA}.</p>
-{btns()}
+{btns(rev=True)}
 </div>
 <div class="photo">{pic("syls-carpet.jpg", "Syl&rsquo;s technician deep-cleaning a living room carpet")}<div class="seal">{B.badge(150)}</div></div>
 </div></section>
