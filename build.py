@@ -8,6 +8,8 @@ DIST = os.path.join(ROOT, 'dist')
 SITE = 'https://sylscleaning.com'
 PHONE = '262-338-0783'
 TEL = 'tel:+12623380783'
+GADS_ID = 'AW-18568144859'                      # Google Ads tag
+GADS_CONV = 'AW-18568144859/62vlCKq1vLYdENvP_ZVF'  # "Contact" conversion action
 EMAIL = 'info@sylscleaning.com'
 PLACE_ID = 'ChIJuaOfLJBfBIgRh1MwdoSoQuU'
 GMAPS = f'https://www.google.com/maps/place/?q=place_id:{PLACE_ID}'
@@ -101,6 +103,16 @@ def head(title, desc, path, img='syls-carpet.jpg', extra_schema=None):
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/styles.css">
 {ld}
+<script async src="https://www.googletagmanager.com/gtag/js?id={GADS_ID}"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}
+gtag('js',new Date());gtag('config','{GADS_ID}');
+(function(){{var sent={{}};function conv(kind){{if(sent[kind])return;sent[kind]=1;gtag('event','conversion',{{send_to:'{GADS_CONV}',event_label:kind}});}}
+document.addEventListener('click',function(e){{var a=e.target.closest&&e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';
+if(h.indexOf('tel:')===0)conv('call');else if(h.indexOf('clienthub.getjobber.com')>-1)conv('quote_form');}},true);
+window.addEventListener('blur',function(){{setTimeout(function(){{var f=document.activeElement;if(f&&f.tagName==='IFRAME'&&f.closest('.jobber'))conv('quote_form');}},0);}});
+}})();
+</script>
 </head>
 <body>"""
 
