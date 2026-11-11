@@ -56,6 +56,9 @@ ICON = {
 FB_IC = '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5H16l.4-3H13.5V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21z"/></svg>'
 LI_IC = '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM3.3 9h3.4v11.5H3.3zM9 9h3.3v1.6h.1c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.2 2.4 4.2 5.4v6.4h-3.4v-5.7c0-1.4 0-3.1-1.9-3.1s-2.2 1.5-2.2 3v5.8H9z"/></svg>'
 CHECK = svg('<path d="M5 12l5 5L20 7"/>', 22, sw=2.4)
+MAIL_IC = svg('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>', 26)
+PIN_IC = svg('<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>', 26)
+CLOCK_IC = svg('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', 26)
 PHONE_IC = svg('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>', 18, 'currentColor', 2)
 
 SCHEMA = {
@@ -133,12 +136,13 @@ def header(active):
     svc_cur = ' aria-current="true"' if active in svc_keys else ''
     top = ''.join(
         f'<a href="{href}"{" aria-current=\"page\"" if k == active else ""}>{label}</a>'
-        for k, label, href in [('commercial', 'Commercial', '/commercial/'), ('about', 'About', '/about/')])
+        for k, label, href in [('commercial', 'Commercial', '/commercial/'), ('about', 'About', '/about/'), ('contact', 'Contact', '/contact/')])
     return f"""<a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
 <div class="wrap hdr">
 <a class="brand" href="/" aria-label="Syl's Cleaning home">{wordmark(52)}</a>
 <nav class="nav" aria-label="Main">
+<a href="/"{' aria-current="page"' if active == 'home' else ''}>Home</a>
 <details class="dd"><summary{svc_cur}>Services <span class="caret" aria-hidden="true">&#9662;</span></summary><div class="dd-menu">{svc_links}</div></details>
 {top}
 </nav>
@@ -498,13 +502,24 @@ write('/about/', about)
 
 # ---------------- REQUEST A QUOTE ----------------
 quote = head(
-    "Request a Free Quote | Syl's Cleaning",
-    f"Request a free cleaning quote from Syl's Cleaning. Carpet, upholstery, tile & grout, floor care and area rugs in {AREA_SHORT}. Call {PHONE}.",
+    "Contact Us & Free Quotes | Syl's Cleaning, West Bend WI",
+    f"Contact Syl's Cleaning: call {PHONE}, email {EMAIL}, or request a free quote online. Shop at 3750 S River Rd, West Bend, WI. Serving {AREA_SHORT}.",
     '/contact/') + header('contact') + f"""
+<section class="wrap contact-top">
+<p class="eyebrow-d">Contact us</p>
+<h1>Let&rsquo;s get you a free quote</h1>
+<p class="sub">Send a request, give us a call or send an email. We&rsquo;ll get back to you to schedule.</p>
+<div class="contact-cards">
+<a class="ccard" href="{TEL}">{PHONE_IC}<strong>Call us</strong><span>{PHONE}</span></a>
+<a class="ccard" href="mailto:{EMAIL}">{MAIL_IC}<strong>Email</strong><span>info@<wbr>sylscleaning.com</span></a>
+<a class="ccard" href="{GMAPS}" target="_blank" rel="noopener">{PIN_IC}<strong>Our shop</strong><span>3750 S River Rd, West Bend, WI 53095</span></a>
+<div class="ccard">{CLOCK_IC}<strong>Hours</strong><span>{HOURS}<br>{HOURS_NOTE}</span></div>
+</div>
+</section>
 <section class="wrap quote">
 <div class="quote-main">
-<h1>Request a free quote</h1>
-<p class="sub">Tell us a little about what you need. We&rsquo;ll reach out to schedule.</p>
+<h2>Request a free quote</h2>
+<p class="sub">Tell us a little about what you need. It takes about a minute.</p>
 <div class="jobber">
 <!-- JOBBER_FORM -->
 <div id="ba537b6b-99e0-4482-b46a-1a8b75f7292a-5279390"></div><link rel="stylesheet" href="https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css" media="screen" /><script src="https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js" clienthub_id="ba537b6b-99e0-4482-b46a-1a8b75f7292a-5279390" form_url="https://clienthub.getjobber.com/client_hubs/ba537b6b-99e0-4482-b46a-1a8b75f7292a/public/work_request/embedded_work_request_form?form_id=5279390"></script>
@@ -514,9 +529,8 @@ quote = head(
 </div>
 </div>
 <aside class="quote-side">
-<div class="talk"><p class="label">Prefer to talk?</p><a class="big" href="{TEL}">{PHONE}</a><a href="mailto:{EMAIL}">{EMAIL}</a></div>
-<div class="info"><div><strong>Hours</strong><span>{HOURS}<br>{HOURS_NOTE}</span></div><div><strong>Service area</strong><span>{AREA_SHORT}</span></div><div><strong>We serve</strong><span>Homes, businesses &amp; apartment communities</span></div></div>
-<div class="map"><iframe title="Map to Syl&rsquo;s Cleaning, 3750 S River Rd, West Bend" src="https://www.google.com/maps?q=3750+S+River+Rd,+West+Bend,+WI+53095&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><a href="{GMAPS}" target="_blank" rel="noopener">3750 S River Rd, West Bend &middot; Get directions &rarr;</a></div>
+<div class="map map-lg"><iframe title="Map to Syl&rsquo;s Cleaning, 3750 S River Rd, West Bend" src="https://www.google.com/maps?q=3750+S+River+Rd,+West+Bend,+WI+53095&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><a href="{GMAPS}" target="_blank" rel="noopener">3750 S River Rd, West Bend &middot; Get directions &rarr;</a></div>
+<div class="info"><div><strong>Service area</strong><span>{AREA_SHORT}</span></div><div><strong>We serve</strong><span>Homes, businesses &amp; apartment communities</span></div><div><strong>Follow us</strong><span><a href="{FACEBOOK}" target="_blank" rel="noopener">Facebook</a> &middot; <a href="{LINKEDIN}" target="_blank" rel="noopener">LinkedIn</a></span></div></div>
 </aside>
 </section>
 """ + footer()
