@@ -226,7 +226,7 @@ cards_html = ''.join(
     for k, t, d, h in cards)
 steps = [('1', 'Send a request', 'Tell us what needs cleaning. It takes about a minute.'),
          ('2', 'We reach out to schedule', 'We&rsquo;ll confirm the details and find a time that works for you.'),
-         ('3', 'Enjoy the difference', 'Our trained technicians do the work. You enjoy a cleaner space.')]
+         ('3', 'Enjoy the fresh clean', 'Our trained technicians handle the work, and you come home to fresh carpet, furniture and floors.')]
 steps_html = ''.join(f'<div class="step"><span class="step-n">{n}</span><h3>{t}</h3><p>{d}</p></div>' for n, t, d in steps)
 area_html = ''.join(f'<li><a href="{h}">{n}</a></li>' for h, n in AREA_LINKS)
 
