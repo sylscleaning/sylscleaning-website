@@ -234,8 +234,8 @@ steps_html = ''.join(f'<div class="step"><span class="step-n">{n}</span><h3>{t}<
 area_html = ''.join(f'<li><a href="{h}">{n}</a></li>' for h, n in AREA_LINKS)
 
 home = head(
-    "Carpet & Upholstery Cleaning in West Bend, WI | Syl's Cleaning",
-    "Carpet, upholstery, tile & grout, floor and area rug cleaning in West Bend and Washington, Ozaukee, Waukesha & Dodge Counties. Locally owned since 1977.",
+    "Carpet, Upholstery & Tile Cleaning in Wisconsin | Syl's Cleaning",
+    "Carpet, upholstery, tile & grout, floor and area rug cleaning in Washington, Ozaukee, Waukesha & Dodge Counties, WI. Locally owned since 1977.",
     '/') + header('home') + f"""
 <section class="wrap hero-wrap"><div class="hero">
 <div class="hero-txt">
@@ -283,9 +283,9 @@ def service(path, key, title, h1, desc, intro, img, alt, items, great, cta_title
 
 AREA_SHORT = 'Washington, Ozaukee, Waukesha and Dodge Counties'
 service('/carpet-upholstery/', 'carpet',
-    "Carpet & Upholstery Cleaning West Bend, WI | Syl's Cleaning",
+    "Carpet & Upholstery Cleaning in Wisconsin | Syl's Cleaning",
     'Carpet &amp; Upholstery Cleaning',
-    "Carpet & upholstery cleaning in West Bend and SE Wisconsin. Truck-mounted hot water extraction for carpet, sofas, mattresses and pet stains. Free quotes.",
+    "Carpet & upholstery cleaning in southeastern Wisconsin. Truck-mounted hot water extraction for carpet, sofas, mattresses and pet stains. Free quotes.",
     'We lift out the dirt, stains and odors that vacuuming leaves behind, so your carpet and furniture look and feel fresh again.',
     'syls-upholstery.jpg', 'Syl&rsquo;s technician cleaning a gray fabric sofa',
     ['Wall-to-wall carpet', 'Spot &amp; stain treatment', 'Sofas, sectionals &amp; chairs', 'Mattresses', 'Vehicle seats &amp; carpet', 'Carpet repair', 'Water damage restoration'],
@@ -301,9 +301,9 @@ service('/carpet-upholstery/', 'carpet',
      ('How do I get a quote?', f'Send a request on our Request a Quote page or call {PHONE}. We&rsquo;ll reach out to schedule.')])
 
 service('/tile-grout/', 'tile',
-    "Tile & Grout Cleaning West Bend, WI | Syl's Cleaning",
+    "Tile & Grout Cleaning in Wisconsin | Syl's Cleaning",
     'Tile &amp; Grout Cleaning',
-    "Tile & grout cleaning in West Bend and SE Wisconsin. Kitchens, bathrooms, showers and entryways brought back to bright. Locally owned since 1977.",
+    "Tile & grout cleaning in southeastern Wisconsin. Kitchens, bathrooms, showers and entryways brought back to bright. Locally owned since 1977.",
     'Mopping can&rsquo;t reach the grime built up in grout lines. We deep-clean tile and grout so your floors look bright again.',
     'syls-tile.jpg', 'Grout lines being scrubbed clean on a tile kitchen floor',
     ['Ceramic &amp; porcelain tile', 'Grout line deep cleaning', 'Kitchen &amp; bathroom floors', 'Showers &amp; tiled walls', 'Entryways &amp; mudrooms'],
@@ -315,9 +315,9 @@ service('/tile-grout/', 'tile',
      ('How do I get a quote?', f'Send a request on our Request a Quote page or call {PHONE}.')])
 
 service('/floor-care/', 'floor',
-    "Floor Stripping & Waxing West Bend, WI | Syl's Cleaning",
+    "Floor Stripping & Waxing in Wisconsin | Syl's Cleaning",
     'Floor Care: Strip &amp; Wax',
-    "Floor stripping & waxing for vinyl and VCT floors in West Bend and SE Wisconsin. Apartment hallways, lobbies and offices. One-time or recurring.",
+    "Floor stripping & waxing for vinyl and VCT floors in southeastern Wisconsin. Apartment hallways, lobbies and offices. One-time or recurring.",
     'We strip away dull, worn finish and lay down fresh wax, so hard floors shine and stay protected longer.',
     'syls-floor.jpg', 'Freshly stripped and waxed hallway floor with a floor machine',
     ['Stripping old, worn finish', 'Fresh wax / floor finish', 'Vinyl &amp; VCT floors', 'Other hard surfaces', 'One-time or recurring service'],
@@ -330,9 +330,9 @@ service('/floor-care/', 'floor',
     items_heading='What&rsquo;s included')
 
 service('/area-rugs/', 'rugs',
-    "Area & Oriental Rug Cleaning West Bend, WI | Syl's Cleaning",
+    "Area & Oriental Rug Cleaning in Wisconsin | Syl's Cleaning",
     'Area Rug Cleaning',
-    "Area & oriental rug cleaning in West Bend and SE Wisconsin. Spot, stain and pet odor treatment that brings back color and softness. Free quotes.",
+    "Area & oriental rug cleaning in southeastern Wisconsin. Spot, stain and pet odor treatment that brings back color and softness. Free quotes.",
     'From everyday rugs to oriental rugs, we clean with care to bring back their color and softness.',
     'syls-rugs.jpg', 'Clean patterned area rug in a sunny living room',
     ['Everyday area rugs', 'Oriental &amp; specialty rugs', 'Spot, stain &amp; odor treatment'],
@@ -442,7 +442,7 @@ why_html = ''.join(f'<div class="step"><span class="step-n">{CHECK.replace("#2A4
 comm_checks = ''.join(f'<li class="check">{CHECK}<span>{i}</span></li>' for i in COMM_ITEMS)
 comm_faq_html = ''.join(f'<details class="faq"><summary>{q}</summary><p>{a}</p></details>' for q, a in comm_faq)
 commercial = head(
-    "Commercial Carpet & Floor Cleaning, West Bend WI | Syl's",
+    "Commercial Carpet & Floor Cleaning in Wisconsin | Syl's",
     "Commercial & post-construction carpet, tile and floor cleaning for offices, apartments and churches in SE Wisconsin. After-hours available. Free quotes.",
     '/commercial/', 'syls-floor.jpg', comm_schema) + header('commercial') + f"""
 <section class="wrap hero-wrap"><div class="hero">
