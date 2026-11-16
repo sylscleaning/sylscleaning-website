@@ -18,7 +18,7 @@ GMAPS = f'https://www.google.com/maps/place/?q=place_id:{PLACE_ID}'
 REVIEW_URL = f'https://search.google.com/local/writereview?placeid={PLACE_ID}'
 RATING, REVIEWS = '4.9', '34'
 HOURS = 'Mon&ndash;Fri 8 AM&ndash;5 PM'
-HOURS_NOTE = 'Saturday &amp; evening appointments available'
+HOURS_NOTE = 'After 5 PM &amp; weekends by appointment'
 # About page photo: swap for the owner & crew photo when it's ready
 ABOUT_IMG = 'syls-carpet.jpg'
 ABOUT_ALT = 'Syl&rsquo;s technician deep-cleaning a living room carpet'
@@ -410,13 +410,13 @@ BUILDINGS = [
 ]
 COMM_ITEMS = ['Post-construction carpet &amp; floor cleaning', 'Commercial carpet &amp; walk-off areas', 'Hallway &amp; common-area carpet', 'Lobby furniture &amp; office chairs',
               'Restroom &amp; kitchen tile and grout', 'Floor strip &amp; wax (VCT &amp; vinyl)', 'Area rugs &amp; entry rugs']
-WHY = [('Scheduled around you', f'Evening and Saturday appointments are available, so your doors stay open and your team keeps working.'),
+WHY = [('Scheduled around you', f'After 5 PM and weekend appointments are available, so your doors stay open and your team keeps working.'),
        ('One-time or recurring', 'Book a single deep clean or set up a regular schedule for carpet and floor care.'),
        ('Truck-mounted equipment', 'The powerful machines stay in our van outside, so the work is thorough without loud equipment in your building.'),
        ('One call, every surface', 'Carpet, upholstery, tile and grout, and hard floors, handled by one local company since 1977.')]
 comm_faq = [
     ('Do you clean after construction or remodeling?', 'Yes. We deep-clean carpet, tile and grout, and hard floors after new construction, remodels and contractor work, removing drywall dust, sawdust, footprints and grime so the space is ready to move into or show.'),
-    ('Can you clean after hours?', 'Yes. Weekday service runs Monday through Friday, 8 AM to 5 PM, and evening and Saturday appointments are available so cleaning doesn&rsquo;t interrupt your business.'),
+    ('Can you clean after hours?', 'Yes. Weekday service runs Monday through Friday, 8 AM to 5 PM, and after 5 PM and weekend appointments are available so cleaning doesn&rsquo;t interrupt your business.'),
     ('Do you offer recurring service?', 'Yes. We can set up a recurring schedule for carpet cleaning or floor strip and wax, or come out for a one-time deep clean.'),
     ('Do you clean apartments between tenants?', 'Yes. We clean carpet and floors in units between tenants, plus hallways and common areas for apartment communities.'),
     ('How do I get a commercial quote?', f'Send a request on our Request a Quote page or call {PHONE}. We&rsquo;ll go over your space and give you a clear price before any work starts.')]
@@ -584,7 +584,7 @@ llms = f"""# Syl's Cleaning (Syl's Carpet & Upholstery Cleaning)
 - [Tile & Grout Cleaning]({SITE}/tile-grout/): ceramic and porcelain tile, grout lines, kitchens, bathrooms, showers, entryways, commercial tile
 - [Floor Care (Strip & Wax)]({SITE}/floor-care/): stripping and waxing vinyl, VCT and other hard floors; apartment hallways, lobbies, offices; one-time or recurring
 - [Area Rug Cleaning]({SITE}/area-rugs/): everyday area rugs and oriental rugs
-- [Commercial Cleaning]({SITE}/commercial/): offices, apartment communities, churches, retail, medical and dental offices, schools, salons and rental turnovers; post-construction carpet and floor cleaning for new homes, remodels and contractor work; evening and Saturday appointments; one-time or recurring
+- [Commercial Cleaning]({SITE}/commercial/): offices, apartment communities, churches, retail, medical and dental offices, schools, salons and rental turnovers; post-construction carpet and floor cleaning for new homes, remodels and contractor work; after 5 PM and weekends by appointment; one-time or recurring
 
 ## Reviews
 - Rated {RATING} stars from {REVIEWS} Google reviews: [about us and customer reviews]({SITE}/about/)
