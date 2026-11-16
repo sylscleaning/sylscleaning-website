@@ -78,13 +78,14 @@ SCHEMA = {
     "address": {"@type": "PostalAddress", "streetAddress": "3750 S River Rd", "addressLocality": "West Bend", "addressRegion": "WI", "postalCode": "53095", "addressCountry": "US"},
     "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "08:00", "closes": "17:00"}],
     "hasMap": "https://www.google.com/maps/place/?q=place_id:ChIJuaOfLJBfBIgRh1MwdoSoQuU",
+    "geo": {"@type": "GeoCoordinates", "latitude": 43.3772465, "longitude": -88.1616791},
     "sameAs": ["https://www.facebook.com/sylscleaning/", "https://www.linkedin.com/company/sylscleaning"],
     "areaServed": [{"@type": "AdministrativeArea", "name": c + ", WI"} for c in COUNTIES],
     "hasOfferCatalog": {
         "@type": "OfferCatalog", "name": "Cleaning services",
         "itemListElement": [
             {"@type": "Offer", "itemOffered": {"@type": "Service", "name": n}} for n in
-            ["Carpet cleaning", "Commercial carpet cleaning", "Post-construction carpet and floor cleaning", "Upholstery cleaning", "Tile and grout cleaning", "Floor stripping and waxing", "Area rug cleaning"]
+            ["Carpet cleaning", "Commercial carpet cleaning", "Post-construction carpet and floor cleaning", "Upholstery cleaning", "Mattress cleaning", "Pet stain and odor removal", "Water damage carpet cleaning", "Tile and grout cleaning", "Floor stripping and waxing", "Area rug cleaning", "Oriental rug cleaning"]
         ]
     },
 }
@@ -233,8 +234,8 @@ steps_html = ''.join(f'<div class="step"><span class="step-n">{n}</span><h3>{t}<
 area_html = ''.join(f'<li><a href="{h}">{n}</a></li>' for h, n in AREA_LINKS)
 
 home = head(
-    "Carpet, Upholstery & Tile Cleaning | Syl's Cleaning, Wisconsin",
-    f"Locally owned since 1977. Carpet, upholstery, tile & grout, floor strip & wax and area rug cleaning for homes, businesses and apartments in {AREA}.",
+    "Carpet & Upholstery Cleaning in West Bend, WI | Syl's Cleaning",
+    "Carpet, upholstery, tile & grout, floor and area rug cleaning in West Bend and Washington, Ozaukee, Waukesha & Dodge Counties. Locally owned since 1977.",
     '/') + header('home') + f"""
 <section class="wrap hero-wrap"><div class="hero">
 <div class="hero-txt">
@@ -282,9 +283,9 @@ def service(path, key, title, h1, desc, intro, img, alt, items, great, cta_title
 
 AREA_SHORT = 'Washington, Ozaukee, Waukesha and Dodge Counties'
 service('/carpet-upholstery/', 'carpet',
-    "Carpet & Upholstery Cleaning | Syl's Cleaning, WI",
+    "Carpet & Upholstery Cleaning West Bend, WI | Syl's Cleaning",
     'Carpet &amp; Upholstery Cleaning',
-    f"Professional carpet and upholstery cleaning for homes, apartments and offices in {AREA_SHORT}. Sofas, mattresses, stains and more. Request a free quote.",
+    "Carpet & upholstery cleaning in West Bend and SE Wisconsin. Truck-mounted hot water extraction for carpet, sofas, mattresses and pet stains. Free quotes.",
     'We lift out the dirt, stains and odors that vacuuming leaves behind, so your carpet and furniture look and feel fresh again.',
     'syls-upholstery.jpg', 'Syl&rsquo;s technician cleaning a gray fabric sofa',
     ['Wall-to-wall carpet', 'Spot &amp; stain treatment', 'Sofas, sectionals &amp; chairs', 'Mattresses', 'Vehicle seats &amp; carpet', 'Carpet repair', 'Water damage restoration'],
@@ -300,9 +301,9 @@ service('/carpet-upholstery/', 'carpet',
      ('How do I get a quote?', f'Send a request on our Request a Quote page or call {PHONE}. We&rsquo;ll reach out to schedule.')])
 
 service('/tile-grout/', 'tile',
-    "Tile & Grout Cleaning | Syl's Cleaning, WI",
+    "Tile & Grout Cleaning West Bend, WI | Syl's Cleaning",
     'Tile &amp; Grout Cleaning',
-    f"Deep tile and grout cleaning for kitchens, bathrooms, entryways and commercial spaces in {AREA_SHORT}. Bring dull grout back to bright. Free quotes.",
+    "Tile & grout cleaning in West Bend and SE Wisconsin. Kitchens, bathrooms, showers and entryways brought back to bright. Locally owned since 1977.",
     'Mopping can&rsquo;t reach the grime built up in grout lines. We deep-clean tile and grout so your floors look bright again.',
     'syls-tile.jpg', 'Grout lines being scrubbed clean on a tile kitchen floor',
     ['Ceramic &amp; porcelain tile', 'Grout line deep cleaning', 'Kitchen &amp; bathroom floors', 'Showers &amp; tiled walls', 'Entryways &amp; mudrooms'],
@@ -314,9 +315,9 @@ service('/tile-grout/', 'tile',
      ('How do I get a quote?', f'Send a request on our Request a Quote page or call {PHONE}.')])
 
 service('/floor-care/', 'floor',
-    "Floor Strip & Wax Services | Syl's Cleaning, WI",
+    "Floor Stripping & Waxing West Bend, WI | Syl's Cleaning",
     'Floor Care: Strip &amp; Wax',
-    f"Commercial and residential floor stripping and waxing for vinyl, VCT and other hard floors in {AREA_SHORT}. Apartment hallways, lobbies, offices.",
+    "Floor stripping & waxing for vinyl and VCT floors in West Bend and SE Wisconsin. Apartment hallways, lobbies and offices. One-time or recurring.",
     'We strip away dull, worn finish and lay down fresh wax, so hard floors shine and stay protected longer.',
     'syls-floor.jpg', 'Freshly stripped and waxed hallway floor with a floor machine',
     ['Stripping old, worn finish', 'Fresh wax / floor finish', 'Vinyl &amp; VCT floors', 'Other hard surfaces', 'One-time or recurring service'],
@@ -329,9 +330,9 @@ service('/floor-care/', 'floor',
     items_heading='What&rsquo;s included')
 
 service('/area-rugs/', 'rugs',
-    "Area Rug Cleaning | Syl's Cleaning, WI",
+    "Area & Oriental Rug Cleaning West Bend, WI | Syl's Cleaning",
     'Area Rug Cleaning',
-    f"Careful cleaning for everyday area rugs and oriental rugs in {AREA_SHORT}. Spot, stain and odor treatment. Request a free quote.",
+    "Area & oriental rug cleaning in West Bend and SE Wisconsin. Spot, stain and pet odor treatment that brings back color and softness. Free quotes.",
     'From everyday rugs to oriental rugs, we clean with care to bring back their color and softness.',
     'syls-rugs.jpg', 'Clean patterned area rug in a sunny living room',
     ['Everyday area rugs', 'Oriental &amp; specialty rugs', 'Spot, stain &amp; odor treatment'],
@@ -379,7 +380,7 @@ for slug, name, towns, intro in AREAS:
          "areaServed": [{"@type": "City", "name": t + ", WI"} for t in towns]},
         {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": clean(q), "acceptedAnswer": {"@type": "Answer", "text": clean(a)}} for q, a in faq]}]}
     html = head(f"Carpet & Tile Cleaning in {name}, WI | Syl's Cleaning",
-                f"Carpet, upholstery, tile & grout, floor strip & wax and area rug cleaning in {town_list} and all of {name}, WI. Locally owned since 1977.",
+                f"Carpet, upholstery, tile & floor cleaning in {towns[0]}, {towns[1]}, {towns[2]} and all of {name}, WI. Locally owned since 1977. Free quotes.",
                 path, extra_schema=extra) + header('') + f"""
 <section class="wrap hero-wrap"><div class="hero">
 <div class="hero-txt">
@@ -441,8 +442,8 @@ why_html = ''.join(f'<div class="step"><span class="step-n">{CHECK.replace("#2A4
 comm_checks = ''.join(f'<li class="check">{CHECK}<span>{i}</span></li>' for i in COMM_ITEMS)
 comm_faq_html = ''.join(f'<details class="faq"><summary>{q}</summary><p>{a}</p></details>' for q, a in comm_faq)
 commercial = head(
-    "Commercial Carpet & Floor Cleaning | Syl's Cleaning, WI",
-    f"Commercial and post-construction carpet, tile & grout and floor cleaning for offices, apartments, churches, new homes and remodels in {AREA_SHORT}. After-hours available.",
+    "Commercial Carpet & Floor Cleaning, West Bend WI | Syl's",
+    "Commercial & post-construction carpet, tile and floor cleaning for offices, apartments and churches in SE Wisconsin. After-hours available. Free quotes.",
     '/commercial/', 'syls-floor.jpg', comm_schema) + header('commercial') + f"""
 <section class="wrap hero-wrap"><div class="hero">
 <div class="hero-txt">
@@ -485,7 +486,7 @@ VALUES = [('Locally owned', 'Owned and run from our shop at 3750 S River Rd in W
 values_html = ''.join(f'<div class="step"><span class="step-n">{CHECK.replace("#2A4C9E", "#fff")}</span><h3>{t}</h3><p>{d}</p></div>' for t, d in VALUES)
 about = head(
     "About Us & Reviews | Syl's Cleaning, West Bend WI",
-    f"Syl's Cleaning is locally owned and operated in West Bend, WI since 1977. Rated {RATING} stars from {REVIEWS} Google reviews. Carpet, upholstery, rug, tile and floor cleaning.",
+    f"Locally owned in West Bend, WI since 1977 and rated {RATING} stars from {REVIEWS} Google reviews. Meet Syl's and see what our customers say.",
     '/about/', ABOUT_IMG) + header('about') + f"""
 <section class="wrap hero-wrap"><div class="hero">
 <div class="hero-txt">
@@ -506,7 +507,7 @@ write('/about/', about)
 # ---------------- REQUEST A QUOTE ----------------
 quote = head(
     "Contact Us & Free Quotes | Syl's Cleaning, West Bend WI",
-    f"Contact Syl's Cleaning: call {PHONE}, email {EMAIL}, or request a free quote online. Shop at 3750 S River Rd, West Bend, WI. Serving {AREA_SHORT}.",
+    f"Request a free quote or call {PHONE}. Syl's Cleaning, 3750 S River Rd, West Bend, WI. Serving Washington, Ozaukee, Waukesha & Dodge Counties.",
     '/contact/') + header('contact') + f"""
 <section class="wrap contact-top">
 <p class="eyebrow-d">Contact us</p>
