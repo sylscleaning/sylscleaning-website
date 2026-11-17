@@ -16,7 +16,7 @@ LINKEDIN = 'https://www.linkedin.com/company/sylscleaning'
 PLACE_ID = 'ChIJuaOfLJBfBIgRh1MwdoSoQuU'
 GMAPS = f'https://www.google.com/maps/place/?q=place_id:{PLACE_ID}'
 REVIEW_URL = f'https://search.google.com/local/writereview?placeid={PLACE_ID}'
-RATING, REVIEWS = '4.9', '34'
+RATING, REVIEWS = '4.9', '36'
 HOURS = 'Mon&ndash;Fri 8 AM&ndash;5 PM'
 HOURS_NOTE = 'After 5 PM &amp; weekends by appointment'
 # About page photo: swap for the owner & crew photo when it's ready
@@ -203,13 +203,13 @@ def write(path, html):
 REVIEW_LIST = [
     ('Marianne S.', 'Whole-home carpet before a sale', 'Mike and Carson were on time, polite and professional. They did an amazing job cleaning the carpets in my entire home to get it ready for sale, even getting out tough stains and pet accidents. Very reasonably priced too - I highly recommend them!'),
     ('Todd W.', 'Church &amp; home carpet', 'Everything about Syl&rsquo;s is top notch. I was referred to them by our pastor where they did the carpet cleaning at our church in West Bend. &hellip; The crew that came to my house was courteous, professional and very accommodating. &hellip; Everything looks great; all spots removed and the carpet looks like new.'),
+    ('Darlene D.', 'Carpet cleaning', 'The office called to let us know when the cleaners would arrive. The people who came to clean were polite, careful and worked well together. They did an outstanding job. The carpet looks brand new!'),
+    ('John S.', 'Repeat customer', 'Mike was very professional and did a outstanding job during his visit!!! Second time today another great job!!!'),
     ('Norma J.', 'Carpet cleaning', 'Always on time and does an awesome job. Some carpets look like there&rsquo;s no hope for them but the guys surprise me and the carpet looks fantastic. I would recommend Syl&rsquo;s to anyone that needs a good company to clean their carpets.'),
     ('Janet E.', 'Area rug', 'Terrific service with great pricing. Left my 9x12 area rug literally looking like new in less than 30 minutes. &hellip; I highly recommend Syl&rsquo;s and will use them again if I need furniture or carpets cleaned.'),
     ('Marissa H.', 'New home carpet &amp; rugs', 'Professional, effective, affordable. I used them to clean the carpets in a house I just bought and I was so satisfied that I brought my area rugs to them to be cleaned as well!'),
     ('David C.', 'Carpet cleaning', '2 years in a row I&rsquo;ve used them, very friendly and does a great job. So nice that they move the furniture, my wife is expecting and can&rsquo;t do these things when I&rsquo;m away. Very happy with their service. 5 stars all day.'),
     ('Marilynn G.', 'Upholstery', 'Excellent work. So clean. Another upholstery cleaner could not get it clean.'),
-    ('OBrian O.', 'Carpet cleaning', 'Very professional service. Great price! Very pleasant! Outstanding service. No fuss no muss! Carpet looks new and smells great!'),
-    ('Karen H.', 'Area rug', 'Cleaned a 5 x 8 ft. area rug beautifully and fair price.'),
 ]
 def review_cards(items):
     return ''.join(f'<figure class="review"><div class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>'
