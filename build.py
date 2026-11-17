@@ -363,8 +363,18 @@ SVC_LINKS = [('Carpet &amp; Upholstery Cleaning', '/carpet-upholstery/', 'Carpet
              ('Area Rug Cleaning', '/area-rugs/', 'Everyday area rugs and oriental rugs.'),
              ('Commercial Cleaning', '/commercial/', 'Offices, apartment communities, churches and businesses.')]
 
+# Local paragraph per county page, plus an optional review (index into REVIEW_LIST) from that county
+AREA_LOCAL = {
+    'washington-county': ('Syl&rsquo;s has been based in West Bend since 1977, so Washington County is home. Our shop is at 3750 S River Rd, and our crew cleans carpet, upholstery, tile and floors for families, businesses, churches and apartment communities across the county, from Kewaskum to Germantown. Because we&rsquo;re local, scheduling is easy, and after 5 PM and weekend appointments are available.', 1),
+    'ozaukee-county': ('Ozaukee County is right next door to our West Bend shop, so Cedarburg, Grafton, Mequon and Port Washington are an easy drive for our crew. Every home and business gets the same truck-mounted equipment and careful work, and after 5 PM and weekend appointments are available.', None),
+    'waukesha-county': ('From our shop in West Bend, our crew covers Waukesha County, from Menomonee Falls and Sussex to Brookfield, Pewaukee and Waukesha. Every home, office and apartment community gets the same truck-mounted equipment and careful work, and after 5 PM and weekend appointments are available.', None),
+    'dodge-county': ('Dodge County borders Washington County, so Theresa, Lomira, Mayville and Beaver Dam are well within reach of our West Bend shop. Families, farms and businesses get the same truck-mounted equipment and careful work, and after 5 PM and weekend appointments are available.', None),
+}
+
 for slug, name, towns, intro in AREAS:
     path = f'/service-areas/{slug}/'
+    local_txt, local_rev = AREA_LOCAL[slug]
+    local_rev_html = f'<div class="reviews one" style="margin-top:22px">{review_cards([REVIEW_LIST[local_rev]])}</div>' if local_rev is not None else ''
     town_list = ', '.join(towns[:-1]) + ' and ' + towns[-1]
     svc_html = ''.join(f'<a class="card" href="{h}"><h3>{t}</h3><p>{d}</p><span class="more">Learn more &rarr;</span></a>' for t, h, d in SVC_LINKS)
     towns_html = ''.join(f'<li>{t}</li>' for t in towns)
@@ -379,18 +389,19 @@ for slug, name, towns, intro in AREAS:
          "provider": {"@id": SITE + "/#business"},
          "areaServed": [{"@type": "City", "name": t + ", WI"} for t in towns]},
         {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": clean(q), "acceptedAnswer": {"@type": "Answer", "text": clean(a)}} for q, a in faq]}]}
-    html = head(f"Carpet & Tile Cleaning in {name}, WI | Syl's Cleaning",
+    html = head(f"Carpet Cleaning in {name}, WI | Syl's Cleaning",
                 f"Carpet, upholstery, tile & floor cleaning in {towns[0]}, {towns[1]}, {towns[2]} and all of {name}, WI. Locally owned since 1977. Free quotes.",
                 path, extra_schema=extra) + header('') + f"""
 <section class="wrap hero-wrap"><div class="hero">
 <div class="hero-txt">
 <p class="eyebrow">Service area</p>
-<h1>Carpet &amp; Floor Cleaning in {name}</h1>
+<h1>Carpet Cleaning in {name}</h1>
 <p class="lead">{intro}</p>
 {btns()}
 </div>
 <div class="photo">{pic("syls-carpet.jpg", f"Syl&rsquo;s technician cleaning carpet in a {name} home")}<div class="seal">{B.badge(150)}</div></div>
 </div></section>
+<section class="wrap s"><h2>Your local carpet cleaner in {name}</h2><p class="sub">{local_txt}</p>{local_rev_html}</section>
 <section class="wrap s"><h2>Services in {name}</h2><p class="sub">Locally owned &amp; operated since 1977. Reliability in professional cleaning.</p><div class="grid">{svc_html}</div></section>
 <section class="wrap s area"><div><h2>Communities we serve</h2><p class="sub">Homes, businesses and apartment communities in and around:</p></div><ul class="area-list">{towns_html}</ul></section>
 <section class="wrap s"><h2>Common questions</h2><div class="faqs">{faq_html}</div><p class="sub" style="margin-top:22px">We also serve {others}.</p></section>
